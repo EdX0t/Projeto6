@@ -13,8 +13,8 @@ public class LyricsREST {
 
 		while(true){
 			try{
-				String song="Soul Kitchen";
-				String artist="The Doors";
+				String song="when the streets have no name";
+				String artist="U2";
 				ResteasyClient cliente= new ResteasyClientBuilder().build();
 				ResteasyWebTarget target=cliente.target("http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+artist+"&song="+song);
 				Response response= target.request(MediaType.APPLICATION_XML).get();

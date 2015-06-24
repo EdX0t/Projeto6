@@ -1,4 +1,4 @@
-package com.chartlyrics.api.main;
+package ar.p4.ejb.webserviceSOAP;
 
 import java.rmi.RemoteException;
 
