@@ -20,8 +20,7 @@ import ar.p4.entities.Utilizador;
 
 @Stateless
 public class UserBean implements UserInterface {
-	private static final Logger log = LoggerFactory
-			.getLogger(UserBean.class);
+	private static final Logger log = LoggerFactory.getLogger(UserBean.class);
 	private static final long serialVersionUID = -4901922974285276339L;
 	@Inject
 	UserDao userDao;
@@ -37,8 +36,9 @@ public class UserBean implements UserInterface {
 	@Override
 	public void updatePassword(Utilizador user) {
 		try {
-			log.info("A password introduzida foi "+user.getPassword());
-			log.info("A password foi encriptada para: " + encriptarPass(user.getPassword()));
+			log.info("A password introduzida foi " + user.getPassword());
+			log.info("A password foi encriptada para: "
+					+ encriptarPass(user.getPassword()));
 			user.setPassword(encriptarPass(user.getPassword()));
 			userDao.update(user);
 			log.info("A password é actualizada");
@@ -57,7 +57,8 @@ public class UserBean implements UserInterface {
 		List<Musica> lista = musicaDao.findAllByUser(user);
 		log.info("Vai alterar todas as musicas introduzidas pelo utilizador no campo dono ");
 		for (Musica m : lista) {
-			log.info("A música "+ m.getTitulo()+ "vai ficar com o dono a null");
+			log.info("A música " + m.getTitulo()
+					+ "vai ficar com o dono a null");
 			m.setDono(null);
 			musicaDao.update(m);
 		}
@@ -69,8 +70,9 @@ public class UserBean implements UserInterface {
 	public Utilizador login(Utilizador user) throws NoResultException {
 		Utilizador activo = null;
 		try {
-			log.info("A password introduzida foi "+user.getPassword());
-			log.info("A password foi encriptada para: " + encriptarPass(user.getPassword()));
+			log.info("A password introduzida foi " + user.getPassword());
+			log.info("A password foi encriptada para: "
+					+ encriptarPass(user.getPassword()));
 			user.setPassword(encriptarPass(user.getPassword()));
 			activo = userDao.login(user);
 		} catch (NoSuchAlgorithmException e) {

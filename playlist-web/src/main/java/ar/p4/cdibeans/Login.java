@@ -1,5 +1,6 @@
 package ar.p4.cdibeans;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,7 +13,7 @@ import ar.p4.entities.Utilizador;
 @Named
 @RequestScoped
 public class Login {
-	@Inject
+	@EJB
 	private UserInterface ubean;
 	@Inject
 	private UserSession userSession;

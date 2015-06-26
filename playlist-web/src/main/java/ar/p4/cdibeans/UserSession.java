@@ -2,6 +2,7 @@ package ar.p4.cdibeans;
 
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -21,7 +22,7 @@ public class UserSession implements Serializable {
 	private boolean isLogged;
 	private HttpSession session;
 	private Utilizador current;
-	@Inject
+	@EJB
 	private UserInterface ubean;
 	private String password;
 	@Inject Login login;
