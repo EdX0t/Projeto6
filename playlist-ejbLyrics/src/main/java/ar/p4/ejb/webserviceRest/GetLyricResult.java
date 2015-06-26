@@ -6,8 +6,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement( name="GetLyricResult", namespace="http://api.chartlyrics.com/")
 public class GetLyricResult {
 
+	
 	@XmlElement(name="Lyric")
 	private String lyricMusic;
+	
 
 	public String getLyric() {
 		return lyricMusic;
