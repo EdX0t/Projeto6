@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "utilizador")
-public class Utilizador {
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +35,16 @@ public class Utilizador {
 	private Date data_nascimento;
 
 	@OneToMany(mappedBy = "dono", cascade = CascadeType.ALL)
-	private List<Playlist> playlists;
+	private List<PlaylistEntity> playlistEntities;
+	
+	@OneToMany
+	private List<MusicEntity> userMusic;
 
-	public Utilizador() {
+	public UserEntity() {
 
 	}
 
-	public Utilizador(String mail, String password) {
+	public UserEntity(String mail, String password) {
 		this.mail = mail;
 		this.password = password;
 	}
@@ -85,6 +88,15 @@ public class Utilizador {
 	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
 	}
+	
+
+	public List<MusicEntity> getUserMusic() {
+		return userMusic;
+	}
+
+	public void setUserMusic(List<MusicEntity> userMusic) {
+		this.userMusic = userMusic;
+	}
 
 	@Override
 	public int hashCode() {
@@ -102,7 +114,7 @@ public class Utilizador {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Utilizador other = (Utilizador) obj;
+		UserEntity other = (UserEntity) obj;
 		if (id != other.id)
 			return false;
 		return true;

@@ -14,8 +14,8 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import ar.p4.ejb.beans.PlaylistInterface;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Playlist;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.PlaylistEntity;
 import ar.p4.util.PageHandler;
 
 @Named
@@ -27,23 +27,23 @@ public class PlaylistCDIBean implements Serializable {
 	UserSession user;
 	@Inject
 	private PlaylistInterface playBean;
-	private Playlist playlist;
-	private ArrayList<Playlist> playlists;
-	private Playlist selectedPlaylist;
+	private PlaylistEntity playlistEntity;
+	private ArrayList<PlaylistEntity> playlistEntities;
+	private PlaylistEntity selectedPlaylist;
 	private String direccao;
 	private String sortedBy;
 	@Inject
 	PageHandler pageHandler;
 	@Inject
 	PesquisaAuxiliar pesqAux;
-	private Musica musicaRemover;
-	private Musica musicaPlay;
+	private MusicEntity musicaRemover;
+	private MusicEntity musicaPlay;
 	private String url;
 	private String tempName;
 	private String nomeInicial;
 
 	public PlaylistCDIBean() {
-		playlist = new Playlist();
+		playlistEntity = new PlaylistEntity();
 		direccao = null;
 		sortedBy = null;
 	}
@@ -55,7 +55,7 @@ public class PlaylistCDIBean implements Serializable {
 
 	public void getData() {
 		if (sortedBy == null || direccao == null) {
-			playlists = (ArrayList<Playlist>) playBean.allPlaylists(user
+			playlistEntities = (ArrayList<PlaylistEntity>) playBean.allPlaylists(user
 					.getCurrent());
 		} else if (sortedBy.equals("name")) {
 			sortName(direccao);
@@ -64,28 +64,28 @@ public class PlaylistCDIBean implements Serializable {
 		} else if (sortedBy.equals("size")) {
 			sortDate(direccao);
 		} else {
-			playlists = (ArrayList<Playlist>) playBean.allPlaylists(user
+			playlistEntities = (ArrayList<PlaylistEntity>) playBean.allPlaylists(user
 					.getCurrent());
 		}
 	}
 
 	public void sortName(String dir) {
 		direccao = dir;
-		playlists = (ArrayList<Playlist>) playBean.playlistOrdenadoNome(
+		playlistEntities = (ArrayList<PlaylistEntity>) playBean.playlistOrdenadoNome(
 				user.getCurrent(), direccao);
 		sortedBy = "name";
 	}
 
 	public void sortDate(String dir) {
 		direccao = dir;
-		playlists = (ArrayList<Playlist>) playBean.playlistOrdenadoData(
+		playlistEntities = (ArrayList<PlaylistEntity>) playBean.playlistOrdenadoData(
 				user.getCurrent(), direccao);
 		sortedBy = "date";
 	}
 
 	public void sortSize(String dir) {
 		direccao = dir;
-		playlists = (ArrayList<Playlist>) playBean.playlistOrdenadoTamanho(
+		playlistEntities = (ArrayList<PlaylistEntity>) playBean.playlistOrdenadoTamanho(
 				user.getCurrent(), direccao);
 		sortedBy = "size";
 	}
@@ -93,11 +93,11 @@ public class PlaylistCDIBean implements Serializable {
 	public void save() {
 		if (!checkPlaylistName(tempName)) {
 			try {
-				playlist.setDono(user.getCurrent());
-				playlist.setNome(tempName);
-				playBean.save(playlist);
+				playlistEntity.setDono(user.getCurrent());
+				playlistEntity.setNome(tempName);
+				playBean.save(playlistEntity);
 				getData();
-				playlist = new Playlist();
+				playlistEntity = new PlaylistEntity();
 				tempName="";
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO,
@@ -180,7 +180,7 @@ public class PlaylistCDIBean implements Serializable {
 	}
 
 	public boolean checkPlaylistName(String nome) {
-		for (Playlist p : playlists) {
+		for (PlaylistEntity p : playlistEntities) {
 			if (p.getNome().equals(nome)) {
 				return true;
 			}
@@ -190,23 +190,23 @@ public class PlaylistCDIBean implements Serializable {
 	
 	// ************** Getters & Setters *********************//
 
-	public ArrayList<Playlist> getPlaylists() {
-		return playlists;
+	public ArrayList<PlaylistEntity> getPlaylists() {
+		return playlistEntities;
 	}
 
-	public Playlist getPlaylist() {
-		return playlist;
+	public PlaylistEntity getPlaylist() {
+		return playlistEntity;
 	}
 
-	public void setPlaylist(Playlist playlist) {
-		this.playlist = playlist;
+	public void setPlaylist(PlaylistEntity playlistEntity) {
+		this.playlistEntity = playlistEntity;
 	}
 
-	public Playlist getSelectedPlaylist() {
+	public PlaylistEntity getSelectedPlaylist() {
 		return selectedPlaylist;
 	}
 
-	public void setSelectedPlaylist(Playlist selectedPlaylist) {
+	public void setSelectedPlaylist(PlaylistEntity selectedPlaylist) {
 		this.selectedPlaylist = selectedPlaylist;
 	}
 
@@ -218,19 +218,19 @@ public class PlaylistCDIBean implements Serializable {
 		this.direccao = direccao;
 	}
 
-	public Musica getMusicaRemover() {
+	public MusicEntity getMusicaRemover() {
 		return musicaRemover;
 	}
 
-	public void setMusicaRemover(Musica musicaRemover) {
+	public void setMusicaRemover(MusicEntity musicaRemover) {
 		this.musicaRemover = musicaRemover;
 	}
 
-	public Musica getMusicaPlay() {
+	public MusicEntity getMusicaPlay() {
 		return musicaPlay;
 	}
 
-	public void setMusicaPlay(Musica musicaPlay) {
+	public void setMusicaPlay(MusicEntity musicaPlay) {
 		this.musicaPlay = musicaPlay;
 	}
 

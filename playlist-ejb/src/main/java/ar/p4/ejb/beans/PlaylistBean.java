@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.p4.ejb.dao.PlaylistDao;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Playlist;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.PlaylistEntity;
+import ar.p4.entities.UserEntity;
 
 @Stateless
 public class PlaylistBean implements PlaylistInterface {
@@ -24,67 +24,67 @@ public class PlaylistBean implements PlaylistInterface {
 	PlaylistDao playlistDao;
 
 	@Override
-	public void save(Playlist playlist) {
+	public void save(PlaylistEntity playlistEntity) {
 		log.info("A playlist não existe");
-		playlist.setData_criacao(new Date());
-		playlistDao.save(playlist);
+		playlistEntity.setData_criacao(new Date());
+		playlistDao.save(playlistEntity);
 
 	}
 
 	@Override
-	public void update(Playlist playlist) {
+	public void update(PlaylistEntity playlistEntity) {
 		// fazer verificacoes de negocio
-		if (playlist.getNome() != null) {
+		if (playlistEntity.getNome() != null) {
 			log.info("A playlist seleccionada vai ser actualizada");
-			playlist.setTamanho(playlist.getMusicas().size());
-			playlistDao.update(playlist);
+			playlistEntity.setTamanho(playlistEntity.getMusicas().size());
+			playlistDao.update(playlistEntity);
 		}
 
 	}
 
 	@Override
-	public void delete(Playlist playlist) {
+	public void delete(PlaylistEntity playlistEntity) {
 		log.info("A playlist seleccionada existe na base de dados e vai ser eliminada");
-		playlistDao.delete(playlist.getId(), Playlist.class);
+		playlistDao.delete(playlistEntity.getId(), PlaylistEntity.class);
 
 	}
 
 	@Override
-	public List<Playlist> allPlaylists(Utilizador user) {
+	public List<PlaylistEntity> allPlaylists(UserEntity user) {
 		log.info("Procura todas as Playlists de um utilizador");
 		return playlistDao.findAllByUser(user);
 	}
 
 	@Override
-	public List<Playlist> playlistOrdenadoNome(Utilizador user, String ordem) {
+	public List<PlaylistEntity> playlistOrdenadoNome(UserEntity user, String ordem) {
 		log.info("Procura todas as Playlists ordenadas por nome");
 		return playlistDao.playlistsOrdNome(user, ordem);
 	}
 
 	@Override
-	public List<Playlist> playlistOrdenadoData(Utilizador user, String ordem) {
+	public List<PlaylistEntity> playlistOrdenadoData(UserEntity user, String ordem) {
 		log.info("Procura todas as Playlists ordenadas por data");
 		return playlistDao.playlistsOrdData(user, ordem);
 	}
 
 	@Override
-	public List<Playlist> playlistOrdenadoTamanho(Utilizador user, String ordem) {
+	public List<PlaylistEntity> playlistOrdenadoTamanho(UserEntity user, String ordem) {
 		log.info("Procura todas as Playlists ordenadas por tamanho");
 		return playlistDao.playlistsOrdTamanho(user, ordem);
 	}
 
 	@Override
-	public boolean adicionaMusica(Musica musica, Playlist playListNome) {
+	public boolean adicionaMusica(MusicEntity musicEntity, PlaylistEntity playListNome) {
 		boolean existe = false;
-		for (Musica m : playListNome.getMusicas()) {
-			if (m.equals(musica)) {
+		for (MusicEntity m : playListNome.getMusicas()) {
+			if (m.equals(musicEntity)) {
 				log.info("A musica existe na Playlist");
 				existe = true;
 				break;
 			}
 		}
 		if (!existe) {
-			playListNome.addMusica(musica);
+			playListNome.addMusica(musicEntity);
 			playListNome.setTamanho(playListNome.getMusicas().size());
 			playlistDao.update(playListNome);
 			log.info("A musica não existe na Playlist e é adicionada");
@@ -95,11 +95,21 @@ public class PlaylistBean implements PlaylistInterface {
 	}
 
 	@Override
-	public void removeMusica(Playlist playlist, Musica musicaRemover) {
-		playlist.getMusicas().remove(musicaRemover);
-		playlist.setTamanho(playlist.getMusicas().size());
-		playlistDao.update(playlist);
+	public void removeMusica(PlaylistEntity playlistEntity, MusicEntity musicaRemover) {
+		playlistEntity.getMusicas().remove(musicaRemover);
+		playlistEntity.setTamanho(playlistEntity.getMusicas().size());
+		playlistDao.update(playlistEntity);
 		log.info("A música escolhida é removida da Playlist");
+	}
+
+	@Override
+	public List<PlaylistEntity> getAllPlaylists() {
+		return playlistDao.findAll();
+	}
+
+	@Override
+	public PlaylistEntity getPlaylistById(int id) {
+		return playlistDao.find(id);
 	}
 
 }

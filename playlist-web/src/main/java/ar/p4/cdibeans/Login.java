@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ar.p4.ejb.beans.UserInterface;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.UserEntity;
 
 @Named
 @RequestScoped
@@ -16,10 +16,10 @@ public class Login {
 	private UserInterface ubean;
 	@Inject
 	private UserSession userSession;
-	private Utilizador current;
+	private UserEntity current;
 
 	public Login() {
-		current = new Utilizador();
+		current = new UserEntity();
 	}
 
 	public String login() {
@@ -53,14 +53,14 @@ public class Login {
 						"E-mail already registered", "");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				}
-			current = new Utilizador();
+			current = new UserEntity();
 	}
 
-	public Utilizador getCurrent() {
+	public UserEntity getCurrent() {
 		return current;
 	}
 
-	public void setCurrent(Utilizador current) {
+	public void setCurrent(UserEntity current) {
 		this.current = current;
 	}
 

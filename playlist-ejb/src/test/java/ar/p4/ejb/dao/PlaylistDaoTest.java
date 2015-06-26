@@ -21,9 +21,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ar.p4.entities.Musica;
-import ar.p4.entities.Playlist;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.PlaylistEntity;
+import ar.p4.entities.UserEntity;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
@@ -45,11 +45,11 @@ public class PlaylistDaoTest {
 	NamedQuery mockedNamedQuery;
 
 	@Mock
-	Playlist playlist;
+	PlaylistEntity playlistEntity;
 	@Mock
-	Musica musica;
+	MusicEntity musicEntity;
 	@Mock
-	Utilizador utilizador;
+	UserEntity userEntity;
 
 
 	@InjectMocks
@@ -58,15 +58,15 @@ public class PlaylistDaoTest {
 
 	@Test
 	public void  findAllByUserTemDevolverTodasAsPlaylistsDeUmUtilizador(){
-		List<Playlist> listaPlaylists;
-		final String QUERY = "from Playlist p where p.dono.id = :userId";
+		List<PlaylistEntity> listaPlaylists;
+		final String QUERY = "from PlaylistEntity p where p.dono.id = :userId";
 
-		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(mockedQuery.getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createQuery(QUERY)).thenReturn(mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 
-		listaPlaylists=ejb.findAllByUser(utilizador);
+		listaPlaylists=ejb.findAllByUser(userEntity);
 		verify(mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createQuery(QUERY);
@@ -75,17 +75,17 @@ public class PlaylistDaoTest {
 
 	@Test
 	public void  playlistsOrdASCNomeTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		final String NQUERYAsc = "PlaylistName.ASC";
 		
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYAsc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 
 		
-		listaPlaylists=ejb.playlistsOrdNome(utilizador,"asc");
+		listaPlaylists=ejb.playlistsOrdNome(userEntity,"asc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 //		verify((Query)mockedNamedQuery).setParameter("sentido", "asc");
 		verify(mockedQuery).getResultList();
@@ -95,16 +95,16 @@ public class PlaylistDaoTest {
 
 	@Test
 	public void  playlistsOrdDescNomeTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		
 		final String NQUERYDesc = "PlaylistName.DESC";
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYDesc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 		
-		listaPlaylists=ejb.playlistsOrdNome(utilizador,"desc");
+		listaPlaylists=ejb.playlistsOrdNome(userEntity,"desc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createNamedQuery(NQUERYDesc);
@@ -113,16 +113,16 @@ public class PlaylistDaoTest {
 	
 	@Test
 	public void  playlistsOrdDescDataTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		
 		final String NQUERYDesc = "PlaylistData.DESC";
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYDesc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 		
-		listaPlaylists=ejb.playlistsOrdData(utilizador,"desc");
+		listaPlaylists=ejb.playlistsOrdData(userEntity,"desc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createNamedQuery(NQUERYDesc);
@@ -131,16 +131,16 @@ public class PlaylistDaoTest {
 	
 	@Test
 	public void  playlistsOrdAscDataTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		
 		final String NQUERYAsc = "PlaylistData.ASC";
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYAsc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 		
-		listaPlaylists=ejb.playlistsOrdData(utilizador,"asc");
+		listaPlaylists=ejb.playlistsOrdData(userEntity,"asc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createNamedQuery(NQUERYAsc);
@@ -149,16 +149,16 @@ public class PlaylistDaoTest {
 
 	@Test
 	public void  playlistsOrdAscTamanhoTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		
 		final String NQUERYAsc = "PlaylistTamanho.ASC";
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYAsc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 		
-		listaPlaylists=ejb.playlistsOrdTamanho(utilizador,"asc");
+		listaPlaylists=ejb.playlistsOrdTamanho(userEntity,"asc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createNamedQuery(NQUERYAsc);
@@ -167,16 +167,16 @@ public class PlaylistDaoTest {
 
 	@Test
 	public void  playlistsOrdDescTamanhoTemDevolverUmaPlaylist(){
-		List<Playlist> listaPlaylists;
+		List<PlaylistEntity> listaPlaylists;
 		
 		final String NQUERYDesc = "PlaylistTamanho.DESC";
 
-		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<Playlist>());
+		when(((Query) mockedQuery).getResultList()).thenReturn(new ArrayList<PlaylistEntity>());
 		when(em.createNamedQuery(NQUERYDesc)).thenReturn((Query)mockedQuery);
 
-		when(utilizador.getId()).thenReturn(1);
+		when(userEntity.getId()).thenReturn(1);
 		
-		listaPlaylists=ejb.playlistsOrdTamanho(utilizador,"desc");
+		listaPlaylists=ejb.playlistsOrdTamanho(userEntity,"desc");
 		verify((Query) mockedQuery).setParameter("userId", 1);
 		verify(mockedQuery).getResultList();
 		verify(em).createNamedQuery(NQUERYDesc);
@@ -187,7 +187,7 @@ public class PlaylistDaoTest {
 	public void  VerificaSeExistePlaylistComNomeDado(){
 				
 		boolean existe;
-		final String QUERY = "select p.nome from Playlist p where p.nome= :nomeParam";
+		final String QUERY = "select p.nome from PlaylistEntity p where p.nome= :nomeParam";
 		
 		when(mockedQuery.getSingleResult()).thenReturn("nomeParam");
       	when(em.createQuery(QUERY)).thenReturn(mockedQuery);
@@ -204,7 +204,7 @@ public class PlaylistDaoTest {
 	public void  SENomePlaylistNaoExiste(){
 				
 		boolean existe;
-		final String QUERY = "select p.nome from Playlist p where p.nome= :nomeParam";
+		final String QUERY = "select p.nome from PlaylistEntity p where p.nome= :nomeParam";
 		
 		when(mockedQuery.getSingleResult()).thenReturn("NoResultException");
       	when(em.createQuery(QUERY)).thenReturn(mockedQuery);
@@ -220,7 +220,7 @@ public class PlaylistDaoTest {
     public void  VerificaSeExistePlaylistComNomeDadoAtravesExcepcao(){
                
         boolean existe;
-        final String QUERY = "select p.nome from Playlist p where p.nome= :nomeParam";
+        final String QUERY = "select p.nome from PlaylistEntity p where p.nome= :nomeParam";
        
         Mockito.doThrow(new NoResultException("Sem resultados")).when(mockedQuery).getSingleResult();
          when(em.createQuery(QUERY)).thenReturn(mockedQuery);

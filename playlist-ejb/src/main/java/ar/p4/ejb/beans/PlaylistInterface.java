@@ -4,21 +4,22 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import ar.p4.entities.Musica;
-import ar.p4.entities.Playlist;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.PlaylistEntity;
+import ar.p4.entities.UserEntity;
 
 @Local
 public interface PlaylistInterface {
 	
-	public abstract void save(Playlist playlist);
-	public abstract void update(Playlist playlist);
-	public abstract void delete(Playlist playlist);
-	public abstract List<Playlist> allPlaylists(Utilizador user);
-	public abstract List<Playlist> playlistOrdenadoNome(Utilizador user, String ordem);
-	public abstract List<Playlist> playlistOrdenadoData(Utilizador user, String ordem);
-	public abstract List<Playlist> playlistOrdenadoTamanho(Utilizador user, String ordem);
-	public abstract boolean adicionaMusica(Musica musica,Playlist playListNome);
-	public abstract void removeMusica(Playlist playlist, Musica musicaRemover);
-
+	public abstract void save(PlaylistEntity playlistEntity);
+	public abstract void update(PlaylistEntity playlistEntity);
+	public abstract void delete(PlaylistEntity playlistEntity);
+	public abstract List<PlaylistEntity> allPlaylists(UserEntity user);
+	public abstract List<PlaylistEntity> playlistOrdenadoNome(UserEntity user, String ordem);
+	public abstract List<PlaylistEntity> playlistOrdenadoData(UserEntity user, String ordem);
+	public abstract List<PlaylistEntity> playlistOrdenadoTamanho(UserEntity user, String ordem);
+	public abstract boolean adicionaMusica(MusicEntity musicEntity,PlaylistEntity playListNome);
+	public abstract void removeMusica(PlaylistEntity playlistEntity, MusicEntity musicaRemover);
+	public abstract List<PlaylistEntity> getAllPlaylists();
+	public abstract PlaylistEntity getPlaylistById(int id);
 }

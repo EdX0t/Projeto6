@@ -16,8 +16,8 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
-import ar.p4.ejb.beans.MusicaInterface;
-import ar.p4.entities.Musica;
+import ar.p4.ejb.beans.MusicInterface;
+import ar.p4.entities.MusicEntity;
 
 @Named
 @SessionScoped
@@ -26,7 +26,7 @@ public class MusicaCDIBean implements Serializable {
 	private static final long serialVersionUID = 7548986860031156326L;
 
 	@Inject
-	MusicaInterface musicaBean;
+	MusicInterface musicaBean;
 
 	@Inject
 	UserSession user;
@@ -35,10 +35,10 @@ public class MusicaCDIBean implements Serializable {
 	@Inject
 	PesquisaAuxiliar pesqAux;
 
-	private List<Musica> todasMusicas;
-	private List<Musica> todasMusicasByDono;
-	private Musica musicaCriacao;
-	private Musica musicaSeleccionada;
+	private List<MusicEntity> todasMusicas;
+	private List<MusicEntity> todasMusicasByDono;
+	private MusicEntity musicaCriacao;
+	private MusicEntity musicaSeleccionada;
 	private UploadedFile file;
 
 	public MusicaCDIBean() {
@@ -46,7 +46,7 @@ public class MusicaCDIBean implements Serializable {
 	}
 
 	public void criarNovaMusica() {
-		musicaCriacao = new Musica();
+		musicaCriacao = new MusicEntity();
 
 	}
 	public void fileUploadListener(FileUploadEvent e){
@@ -126,12 +126,12 @@ public class MusicaCDIBean implements Serializable {
 
 
 	// ************** Getters & Setters *********************//
-	public List<Musica> getTodasMusicas() {
+	public List<MusicEntity> getTodasMusicas() {
 		consultar();
 		return todasMusicas;
 	}
 
-	public List<Musica> getTodasMusicasByDono() {
+	public List<MusicEntity> getTodasMusicasByDono() {
 		consultarByDono();
 		return this.todasMusicasByDono;
 	}
@@ -140,19 +140,19 @@ public class MusicaCDIBean implements Serializable {
 		this.todasMusicasByDono = musicaBean.findAllByUser(user.getCurrent());
 	}
 
-	public Musica getMusicaSeleccionada() {
+	public MusicEntity getMusicaSeleccionada() {
 		return musicaSeleccionada;
 	}
 
-	public void setMusicaSeleccionada(Musica musicaSeleccionada) {
+	public void setMusicaSeleccionada(MusicEntity musicaSeleccionada) {
 		this.musicaSeleccionada = musicaSeleccionada;
 	}
 
-	public Musica getMusicaCriacao() {
+	public MusicEntity getMusicaCriacao() {
 		return this.musicaCriacao;
 	}
 
-	public void setMusicaCriacao(Musica musicaCriacao) {
+	public void setMusicaCriacao(MusicEntity musicaCriacao) {
 		this.musicaCriacao = musicaCriacao;
 	}
 

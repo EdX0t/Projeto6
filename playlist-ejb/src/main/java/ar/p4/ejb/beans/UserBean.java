@@ -13,10 +13,10 @@ import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.p4.ejb.dao.MusicaDao;
+import ar.p4.ejb.dao.MusicDao;
 import ar.p4.ejb.dao.UserDao;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.UserEntity;
 
 @Stateless
 public class UserBean implements UserInterface {
@@ -26,16 +26,16 @@ public class UserBean implements UserInterface {
 	@Inject
 	UserDao userDao;
 	@Inject
-	MusicaDao musicaDao;
-	private ArrayList<Utilizador> utilizadores;
+	MusicDao musicDao;
+	private ArrayList<UserEntity> utilizadores;
 
 	@Override
-	public void update(Utilizador user) {
+	public void update(UserEntity user) {
 		userDao.update(user);
 	}
 
 	@Override
-	public void updatePassword(Utilizador user) {
+	public void updatePassword(UserEntity user) {
 		try {
 			log.info("A password introduzida foi "+user.getPassword());
 			log.info("A password foi encriptada para: " + encriptarPass(user.getPassword()));
@@ -51,23 +51,23 @@ public class UserBean implements UserInterface {
 	}
 
 	@Override
-	public void delete(Utilizador user) {
+	public void delete(UserEntity user) {
 
 		// definir dono das musicas como servidor
-		List<Musica> lista = musicaDao.findAllByUser(user);
+		List<MusicEntity> lista = musicDao.findAllByUser(user);
 		log.info("Vai alterar todas as musicas introduzidas pelo utilizador no campo dono ");
-		for (Musica m : lista) {
+		for (MusicEntity m : lista) {
 			log.info("A música "+ m.getTitulo()+ "vai ficar com o dono a null");
 			m.setDono(null);
-			musicaDao.update(m);
+			musicDao.update(m);
 		}
-		userDao.delete(user.getId(), Utilizador.class);
+		userDao.delete(user.getId(), UserEntity.class);
 		log.info("Apaga o utilizador");
 	}
 
 	@Override
-	public Utilizador login(Utilizador user) throws NoResultException {
-		Utilizador activo = null;
+	public UserEntity login(UserEntity user) throws NoResultException {
+		UserEntity activo = null;
 		try {
 			log.info("A password introduzida foi "+user.getPassword());
 			log.info("A password foi encriptada para: " + encriptarPass(user.getPassword()));
@@ -99,7 +99,7 @@ public class UserBean implements UserInterface {
 	}
 
 	@Override
-	public boolean save(Utilizador user) {
+	public boolean save(UserEntity user) {
 		try {
 			String pass = encriptarPass(user.getPassword());
 			user.setPassword(pass);
@@ -122,13 +122,18 @@ public class UserBean implements UserInterface {
 	}
 
 	@Override
-	public Utilizador findById(int id) {
+	public UserEntity findById(int id) {
 		return userDao.find(id);
 	}
 
-	public ArrayList<Utilizador> getUtilizadores() {
-		utilizadores = (ArrayList<Utilizador>) userDao.findAll();
+	public ArrayList<UserEntity> getUtilizadores() {
+		utilizadores = (ArrayList<UserEntity>) userDao.findAll();
 		return utilizadores;
+	}
+
+	@Override
+	public UserEntity findByEmail(String email) {
+		return userDao.findByEmail(email);
 	}
 
 }

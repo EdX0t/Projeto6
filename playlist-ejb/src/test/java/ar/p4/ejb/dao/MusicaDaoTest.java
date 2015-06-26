@@ -14,8 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.UserEntity;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
@@ -37,15 +37,15 @@ public class MusicaDaoTest {
 	Query mockedQuery;
 	
 	@Mock
-	Utilizador utilizador;
+	UserEntity userEntity;
 	
 	@InjectMocks
-	MusicaDao ejb;
+	MusicDao ejb;
 	
 	@Test
 	public void  findlistaArtistasTemDevolverUmaLista(){
 		List<String> listaArtistas;
-		final String QUERY = "SELECT DISTINCT d.artista FROM Musica d";
+		final String QUERY = "SELECT DISTINCT d.artista FROM MusicEntity d";
 		
 		when(mockedQuery.getResultList()).thenReturn(new ArrayList<String>());
 
@@ -60,9 +60,9 @@ public class MusicaDaoTest {
 	
 	@Test
 	public void  findlistaMusicasPorArtistasTemDevolverUmaLista(){
-		List<Musica> listaMusicas;
-		final String QUERY = "SELECT p FROM Musica p WHERE p.artista like :name";
-		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Musica>());
+		List<MusicEntity> listaMusicas;
+		final String QUERY = "SELECT p FROM MusicEntity p WHERE p.artista like :name";
+		when(mockedQuery.getResultList()).thenReturn(new ArrayList<MusicEntity>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
         listaMusicas=ejb.findMusicaByArtista("nome");
         verify(mockedQuery).setParameter("name", "nome");
@@ -74,7 +74,7 @@ public class MusicaDaoTest {
 	@Test
 	public void  findlistaTitulosTemDevolverUmaListaTitulos(){
 		List<String> listaTitulos;
-		final String QUERY = "SELECT DISTINCT d.titulo FROM Musica d";
+		final String QUERY = "SELECT DISTINCT d.titulo FROM MusicEntity d";
 		when(mockedQuery.getResultList()).thenReturn(new ArrayList<String>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
         listaTitulos=ejb.findListaTitulos();
@@ -85,9 +85,9 @@ public class MusicaDaoTest {
 	
 	@Test
 	public void  findMusicaByTituloTemDevolverTodasAsMusicasComTituloDado(){
-		List<Musica> listaMusicas;
-		final String QUERY = "SELECT p FROM Musica p WHERE p.titulo like :name";
-		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Musica>());
+		List<MusicEntity> listaMusicas;
+		final String QUERY = "SELECT p FROM MusicEntity p WHERE p.titulo like :name";
+		when(mockedQuery.getResultList()).thenReturn(new ArrayList<MusicEntity>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
         listaMusicas=ejb.findMusicaByTitulo("nome");
         verify(mockedQuery).setParameter("name", "nome");
@@ -99,7 +99,7 @@ public class MusicaDaoTest {
 	@Test
 	public void  findlistaTitulosTemDevolverUmaListaTitulosEArtistas(){
 		List<String> listaTitulosArtistas;
-		final String QUERY = "SELECT DISTINCT d.titulo, d.artista FROM Musica d";
+		final String QUERY = "SELECT DISTINCT d.titulo, d.artista FROM MusicEntity d";
 		when(mockedQuery.getResultList()).thenReturn(new ArrayList<String>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
         listaTitulosArtistas=ejb.findListaTitulosArtistas();
@@ -111,7 +111,7 @@ public class MusicaDaoTest {
 	@Test
 	public void  findMusicaByTituloTemDevolverTodasOsTitulosDeUmArtistaIntroduzido(){
 		List<String> listaTitulosArtista;
-		final String QUERY = "SELECT DISTINCT d.titulo FROM Musica d WHERE d.artista like :artista";
+		final String QUERY = "SELECT DISTINCT d.titulo FROM MusicEntity d WHERE d.artista like :artista";
 		when(mockedQuery.getResultList()).thenReturn(new ArrayList<String>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
         listaTitulosArtista=ejb.findListaTitulosArtista("nome");
@@ -123,11 +123,11 @@ public class MusicaDaoTest {
 	
 	@Test
 	public void  findMusicaByTituloArtistaTemDevolverUmaMusica(){
-		Musica musica;
-		final String QUERY = "SELECT p FROM Musica p WHERE p.titulo like :titulo AND p.artista like :artista";
-		when(mockedQuery.getSingleResult()).thenReturn(new Musica());
+		MusicEntity musicEntity;
+		final String QUERY = "SELECT p FROM MusicEntity p WHERE p.titulo like :titulo AND p.artista like :artista";
+		when(mockedQuery.getSingleResult()).thenReturn(new MusicEntity());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
-        musica=ejb.findMusicaByTituloArtista("artista","titulo");
+        musicEntity=ejb.findMusicaByTituloArtista("artista","titulo");
         verify(mockedQuery).setParameter("artista", "artista");
         verify(mockedQuery).setParameter("titulo", "titulo");
         verify(mockedQuery).getSingleResult();
@@ -137,14 +137,14 @@ public class MusicaDaoTest {
 	
 	@Test
 	public void  findAllByUserTemDevolverTodasAsMusicasDeUmUtilizador(){
-		List<Musica> listaMusicas;
-		final String QUERY = "SELECT p FROM Musica p inner join p.dono s where s.id = :dono";
-		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Musica>());
+		List<MusicEntity> listaMusicas;
+		final String QUERY = "SELECT p FROM MusicEntity p inner join p.dono s where s.id = :dono";
+		when(mockedQuery.getResultList()).thenReturn(new ArrayList<MusicEntity>());
         when(em.createQuery(QUERY)).thenReturn(mockedQuery);
        
-        when(utilizador.getId()).thenReturn(1);
+        when(userEntity.getId()).thenReturn(1);
         
-        listaMusicas=ejb.findAllByUser(utilizador);
+        listaMusicas=ejb.findAllByUser(userEntity);
         verify(mockedQuery).setParameter("dono", 1);
         verify(mockedQuery).getResultList();
         verify(em).createQuery(QUERY);

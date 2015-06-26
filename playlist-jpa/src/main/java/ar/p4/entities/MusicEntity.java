@@ -22,13 +22,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
-public class Musica implements Serializable {
+public class MusicEntity implements Serializable {
 
 	private static final long serialVersionUID = 9008393849875735770L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 	
 	@NotEmpty
 	@Column(name = "titulo", nullable = false, length = 40)
@@ -53,38 +53,38 @@ public class Musica implements Serializable {
 	private String filePath;
 
 	@ManyToOne
-	private Utilizador dono;
+	private UserEntity dono;
 	
-	@ManyToMany(mappedBy = "musicas")
-	private List<Playlist> playlists;
+	@ManyToMany(mappedBy = "musicEntities")
+	private List<PlaylistEntity> playlistEntities;
 	
-	public Utilizador getDono() {
+	public UserEntity getDono() {
 		return dono;
 	}
 	
-	public List<Playlist> getPlaylists() {
-		return playlists;
+	public List<PlaylistEntity> getPlaylists() {
+		return playlistEntities;
 	}
 
 
-	public void setPlaylists(List<Playlist> playlist) {
-		this.playlists = playlist;
+	public void setPlaylists(List<PlaylistEntity> playlistEntity) {
+		this.playlistEntities = playlistEntity;
 	}
 
 
-	public void setDono(Utilizador dono) {
+	public void setDono(UserEntity dono) {
 		this.dono = dono;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Musica() {
+	public MusicEntity() {
 		
 	}
 
@@ -148,7 +148,7 @@ public class Musica implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Musica other = (Musica) obj;
+		MusicEntity other = (MusicEntity) obj;
 		if (album == null) {
 			if (other.album != null)
 				return false;

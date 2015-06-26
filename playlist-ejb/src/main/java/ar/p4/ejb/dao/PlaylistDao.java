@@ -9,27 +9,27 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.p4.entities.Playlist;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.PlaylistEntity;
+import ar.p4.entities.UserEntity;
 
 @Stateless
-public class PlaylistDao extends GenericDao<Playlist> {
+public class PlaylistDao extends GenericDao<PlaylistEntity> {
 	
 	private static final Logger log = LoggerFactory.getLogger(PlaylistDao.class);
 
 	public PlaylistDao() {
-		super(Playlist.class);
+		super(PlaylistEntity.class);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Playlist> findAllByUser(Utilizador user) {
-		Query q = em.createQuery("from Playlist p where p.dono.id = :userId");
+	public List<PlaylistEntity> findAllByUser(UserEntity user) {
+		Query q = em.createQuery("from PlaylistEntity p where p.dono.id = :userId");
 		q.setParameter("userId", new Integer(user.getId()));
 		return q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Playlist> playlistsOrdNome(Utilizador user, String sentido) {
+	public List<PlaylistEntity> playlistsOrdNome(UserEntity user, String sentido) {
 		Query q = null;
 		if (sentido.equalsIgnoreCase("asc")) {
 			log.info("Ordena lista por ordem ascendente de nome");
@@ -43,7 +43,7 @@ public class PlaylistDao extends GenericDao<Playlist> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Playlist> playlistsOrdData(Utilizador user, String sentido) {
+	public List<PlaylistEntity> playlistsOrdData(UserEntity user, String sentido) {
 		Query q = null;
 		if (sentido.equalsIgnoreCase("asc")) {
 			log.info("Ordena lista por ordem ascendente de data");
@@ -57,7 +57,7 @@ public class PlaylistDao extends GenericDao<Playlist> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Playlist> playlistsOrdTamanho(Utilizador user, String sentido) {
+	public List<PlaylistEntity> playlistsOrdTamanho(UserEntity user, String sentido) {
 		Query q = null;
 		if (sentido.equalsIgnoreCase("asc")) {
 			log.info("Ordena lista por ordem ascendente de tamanho");
@@ -71,7 +71,7 @@ public class PlaylistDao extends GenericDao<Playlist> {
 	}
 	
 	public boolean checkPlaylist(String nomePlaylist){
-		Query q = em.createQuery("select p.nome from Playlist p where p.nome= :nomeParam");
+		Query q = em.createQuery("select p.nome from PlaylistEntity p where p.nome= :nomeParam");
 		q.setParameter("nomeParam", nomePlaylist);
 		try {
 		String nomeTemp = (String) q.getSingleResult();

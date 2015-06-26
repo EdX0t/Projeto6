@@ -19,8 +19,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ar.p4.entities.Musica;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.UserEntity;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
@@ -40,7 +40,7 @@ public class UserDaoTest {
 	Query mockedQuery;
 
 	@Mock
-	Utilizador utilizador;
+	UserEntity userEntity;
 
 	@InjectMocks
 	UserDao ejb;
@@ -48,14 +48,14 @@ public class UserDaoTest {
 	@Test
 	public void fazLoginPorUtilizador() {
 
-		final String QUERY = "select u from Utilizador u where u.mail=:mailparam and u.password =:passparam";
-		when(mockedQuery.getResultList()).thenReturn(new ArrayList<Musica>());
+		final String QUERY = "select u from UserEntity u where u.mail=:mailparam and u.password =:passparam";
+		when(mockedQuery.getResultList()).thenReturn(new ArrayList<MusicEntity>());
 		when(em.createQuery(QUERY)).thenReturn(mockedQuery);
 
-		when(utilizador.getMail()).thenReturn("mail");
-		when(utilizador.getPassword()).thenReturn("pass");
+		when(userEntity.getMail()).thenReturn("mail");
+		when(userEntity.getPassword()).thenReturn("pass");
 
-		utilizador = ejb.login(utilizador);
+		userEntity = ejb.login(userEntity);
 		verify(mockedQuery).setParameter("mailparam", "mail");
 		verify(mockedQuery).setParameter("passparam", "pass");
 		verify(mockedQuery).getSingleResult();
@@ -67,7 +67,7 @@ public class UserDaoTest {
 	public void VerificaSeExisteUtilizadorComNomeDado() {
 
 		boolean existe;
-		final String QUERY = "select u.mail from Utilizador u where u.mail= :mailParam";
+		final String QUERY = "select u.mail from UserEntity u where u.mail= :mailParam";
 
 		when(mockedQuery.getSingleResult()).thenReturn("emailTemp");
 		when(em.createQuery(QUERY)).thenReturn(mockedQuery);
@@ -83,17 +83,17 @@ public class UserDaoTest {
 	@Test
 	public void fazLoginPorUtilizadorComExcepcao() {
 
-		final String QUERY = "select u from Utilizador u where u.mail=:mailparam and u.password =:passparam";
+		final String QUERY = "select u from UserEntity u where u.mail=:mailparam and u.password =:passparam";
 
 		Mockito.doThrow(new NoResultException("Sem resultados"))
 				.when(mockedQuery).getSingleResult();
 
 		when(em.createQuery(QUERY)).thenReturn(mockedQuery);
 
-		when(utilizador.getMail()).thenReturn("mail");
-		when(utilizador.getPassword()).thenReturn("pass");
+		when(userEntity.getMail()).thenReturn("mail");
+		when(userEntity.getPassword()).thenReturn("pass");
 
-		utilizador = ejb.login(utilizador);
+		userEntity = ejb.login(userEntity);
 		verify(mockedQuery).setParameter("mailparam", "mail");
 		verify(mockedQuery).setParameter("passparam", "pass");
 		verify(mockedQuery).getSingleResult();

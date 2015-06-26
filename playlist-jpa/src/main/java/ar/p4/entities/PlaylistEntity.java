@@ -24,14 +24,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "playlists")
 @NamedQueries({
-		@NamedQuery(name = "PlaylistName.ASC", query = "select p from Playlist p where p.dono.id = :userId order by p.nome asc"),
-		@NamedQuery(name = "PlaylistName.DESC", query = "select p from Playlist p where p.dono.id = :userId order by p.nome desc"),
-		@NamedQuery(name = "PlaylistData.ASC", query = "select p from Playlist p where p.dono.id = :userId order by p.data_criacao asc"),
-		@NamedQuery(name = "PlaylistData.DESC", query = "select p from Playlist p where p.dono.id = :userId order by p.data_criacao desc"),
-		@NamedQuery(name = "PlaylistTamanho.ASC", query = "select p from Playlist p where p.dono.id = :userId order by p.tamanho asc"),
-		@NamedQuery(name = "PlaylistTamanho.DESC", query = "select p from Playlist p where p.dono.id = :userId order by p.tamanho desc"), })
-@XmlRootElement(name = "playlist")
-public class Playlist implements Serializable {
+		@NamedQuery(name = "PlaylistName.ASC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.nome asc"),
+		@NamedQuery(name = "PlaylistName.DESC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.nome desc"),
+		@NamedQuery(name = "PlaylistData.ASC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.data_criacao asc"),
+		@NamedQuery(name = "PlaylistData.DESC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.data_criacao desc"),
+		@NamedQuery(name = "PlaylistTamanho.ASC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.tamanho asc"),
+		@NamedQuery(name = "PlaylistTamanho.DESC", query = "select p from PlaylistEntity p where p.dono.id = :userId order by p.tamanho desc"), })
+public class PlaylistEntity implements Serializable {
 
 	private static final long serialVersionUID = 7363136456493451140L;
 
@@ -50,13 +49,12 @@ public class Playlist implements Serializable {
 	@Column(name = "tamanho")
 	private int tamanho;
 
-	@XmlTransient
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Musica> musicas;
+	private List<MusicEntity> musicEntities;
 
 	@ManyToOne
 	@JoinColumn(name = "id_dono")
-	private Utilizador dono;
+	private UserEntity dono;
 
 	public Integer getId() {
 		return id;
@@ -90,28 +88,27 @@ public class Playlist implements Serializable {
 		this.tamanho = tamanho;
 	}
 
-	public List<Musica> getMusicas() {
-		return musicas;
+	public List<MusicEntity> getMusicas() {
+		return musicEntities;
 	}
 
-	public void setMusicas(List<Musica> musica) {
-		this.musicas = musica;
+	public void setMusicas(List<MusicEntity> musicEntity) {
+		this.musicEntities = musicEntity;
 	}
 	
-	@XmlTransient
-	public Utilizador getDono() {
+	public UserEntity getDono() {
 		return dono;
 	}
 
-	public void setDono(Utilizador dono) {
+	public void setDono(UserEntity dono) {
 		this.dono = dono;
 	}
 
-	public void addMusica(Musica musica) {
-		if (musicas == null) {
-			musicas = new ArrayList<Musica>();
+	public void addMusica(MusicEntity musicEntity) {
+		if (musicEntities == null) {
+			musicEntities = new ArrayList<MusicEntity>();
 		} else {
-			musicas.add(musica);
+			musicEntities.add(musicEntity);
 		}
 	}
 
@@ -131,7 +128,7 @@ public class Playlist implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Playlist other = (Playlist) obj;
+		PlaylistEntity other = (PlaylistEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

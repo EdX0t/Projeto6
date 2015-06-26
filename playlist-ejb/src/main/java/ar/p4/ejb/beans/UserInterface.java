@@ -4,24 +4,26 @@ import java.util.ArrayList;
 
 import javax.ejb.Local;
 
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.UserEntity;
 
 @Local
 public interface UserInterface {
 	
-	public abstract boolean save(Utilizador user);
+	public abstract boolean save(UserEntity user);
 
-	public abstract void update(Utilizador user);
+	public abstract void update(UserEntity user);
 	
-	public abstract void updatePassword(Utilizador user);
+	public abstract void updatePassword(UserEntity user);
 
-	public abstract void delete(Utilizador user);
+	public abstract void delete(UserEntity user);
 
-	public abstract Utilizador login(Utilizador user);
+	public abstract UserEntity login(UserEntity user);
 	
 	public int numUsers();
 	
-	public ArrayList<Utilizador> getUtilizadores();
-	public Utilizador findById(int id);
+	public ArrayList<UserEntity> getUtilizadores();
+	public UserEntity findById(int id);
+	
+	public UserEntity findByEmail(String email);
 	
 }

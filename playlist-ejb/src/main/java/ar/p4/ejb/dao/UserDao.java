@@ -7,26 +7,26 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.UserEntity;
 
 @Stateless
-public class UserDao extends GenericDao<Utilizador> {
+public class UserDao extends GenericDao<UserEntity> {
 
 	private static final Logger log = LoggerFactory.getLogger(UserDao.class);
 
 	public UserDao() {
-		super(Utilizador.class);
+		super(UserEntity.class);
 	}
 
 
-	public Utilizador login(Utilizador u) {
+	public UserEntity login(UserEntity u) {
 	//recebe user temp e faz query para tentar encontra-lo
-		Utilizador user = null;
+		UserEntity user = null;
 		try {
-		Query q = em.createQuery("select u from Utilizador u where u.mail=:mailparam and u.password =:passparam");
+		Query q = em.createQuery("select u from UserEntity u where u.mail=:mailparam and u.password =:passparam");
 		q.setParameter("mailparam", u.getMail());
 		q.setParameter("passparam", u.getPassword());
-		user = (Utilizador) q.getSingleResult();
+		user = (UserEntity) q.getSingleResult();
 		log.info("O utilizador existe");
 		} catch (NoResultException e){
 			log.error("O utilizador não existe");
@@ -36,7 +36,7 @@ public class UserDao extends GenericDao<Utilizador> {
 	}
 	public boolean checkEmail(String email) {
 	
-		Query q = em.createQuery("select u.mail from Utilizador u where u.mail= :mailParam");
+		Query q = em.createQuery("select u.mail from UserEntity u where u.mail= :mailParam");
 		q.setParameter("mailParam", email);
 		try {
 		String emailTemp = (String) q.getSingleResult();
@@ -47,6 +47,18 @@ public class UserDao extends GenericDao<Utilizador> {
 			return false;
 		}
 		
+	}
+
+	public UserEntity findByEmail(String email) {
+		Query q = em.createQuery("from UserEntity u where u.mail= :mailParam");
+		q.setParameter("mailParam", email);
+		try {
+		UserEntity user = (UserEntity) q.getSingleResult();
+		return user;
+		} catch (NoResultException e){
+			log.info("Não existe nenhum user com este email.");
+		}
+		return null;
 	}
 	
 	}

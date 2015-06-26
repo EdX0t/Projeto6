@@ -15,10 +15,10 @@ import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
-import ar.p4.ejb.beans.MusicaInterface;
+import ar.p4.ejb.beans.MusicInterface;
 import ar.p4.ejb.beans.PlaylistInterface;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Playlist;
+import ar.p4.entities.MusicEntity;
+import ar.p4.entities.PlaylistEntity;
 
 @Named
 @SessionScoped
@@ -27,7 +27,7 @@ public class PesquisaAuxiliar implements Serializable {
 	private static final long serialVersionUID = 1186970608311468603L;
 
 	@Inject
-	MusicaInterface musicaBean;
+	MusicInterface musicaBean;
 	@Inject
 	PlaylistInterface playlistBean;
 	@Inject
@@ -43,13 +43,13 @@ public class PesquisaAuxiliar implements Serializable {
 	private List<String> listaTitulos;
 	private List<String> listaTitulosPorArtista;
 	private List<String> listanomesPlaylists;
-	private List<Playlist> listaPlayLists;
+	private List<PlaylistEntity> listaPlayLists;
 
-	private Musica musicaSeleccionada;
+	private MusicEntity musicaSeleccionada;
 
-	private List<Musica> todasMusicas;
+	private List<MusicEntity> todasMusicas;
 
-	public List<Musica> getTodasMusicas() {
+	public List<MusicEntity> getTodasMusicas() {
 		return musicaCDIBean.getTodasMusicas();
 	}
 
@@ -57,23 +57,23 @@ public class PesquisaAuxiliar implements Serializable {
 	private String playListSeleccionada;
 	private String musicaSeleccionadaPorArtista;
 	private String tituloSeleccionadoPorArtista;
-	private Musica musicaArtistaTitulo;
+	private MusicEntity musicaArtistaTitulo;
 
-	private List<Musica> listaPesquisa;
+	private List<MusicEntity> listaPesquisa;
 
 	@PostConstruct
 	public void init() {
 		listaArtistas = new ArrayList<String>();
 		listaTitulos = new ArrayList<String>();
 		listaTitulosPorArtista = new ArrayList<String>();
-		todasMusicas = new ArrayList<Musica>();
+		todasMusicas = new ArrayList<MusicEntity>();
 		listaArtistas = findListaArtistas();
 		listaTitulos = findListaTitulos();
-		listaPlayLists = new ArrayList<Playlist>();
+		listaPlayLists = new ArrayList<PlaylistEntity>();
 		listanomesPlaylists = new ArrayList<String>();
 		musicaSeleccionada = null;
 
-		listaPesquisa = new ArrayList<Musica>();
+		listaPesquisa = new ArrayList<MusicEntity>();
 	}
 	
 	public void refreshLists(){
@@ -168,7 +168,7 @@ public class PesquisaAuxiliar implements Serializable {
 				this.artistaSeleccionado, this.tituloSeleccionadoPorArtista));
 	}
 
-	public Musica getMusicaArtistaTitulo() {
+	public MusicEntity getMusicaArtistaTitulo() {
 		return this.musicaArtistaTitulo;
 	}
 
@@ -189,24 +189,24 @@ public class PesquisaAuxiliar implements Serializable {
 	public List<String> getListanomesPlaylists() {
 		getlistaPlayLists();
 		listanomesPlaylists.clear();
-		for (Playlist p : listaPlayLists)
+		for (PlaylistEntity p : listaPlayLists)
 			this.listanomesPlaylists.add(p.getNome());
 		return this.listanomesPlaylists;
 	}
 
 	// Adicionar musica à PlayList
 	public void adicionarMusicaPlayList() {
-		Playlist playlist = null;
+		PlaylistEntity playlistEntity = null;
 
-		for (Playlist p : listaPlayLists) {
+		for (PlaylistEntity p : listaPlayLists) {
 			if (p.getNome().compareTo(this.playListSeleccionada) == 0) {
-				playlist = p;
+				playlistEntity = p;
 			}
 		}
 
 		if (musicaSeleccionada != null) {
 				
-			boolean success = playlistBean.adicionaMusica(this.musicaSeleccionada, playlist);
+			boolean success = playlistBean.adicionaMusica(this.musicaSeleccionada, playlistEntity);
 			if (success) {
 				playCDIbean.getData();
 				musicaSeleccionada = null;
@@ -243,11 +243,11 @@ public class PesquisaAuxiliar implements Serializable {
 	}
 
 	// Musica a adicionar
-	public Musica getMusicaSeleccionada() {
+	public MusicEntity getMusicaSeleccionada() {
 		return musicaSeleccionada;
 	}
 
-	public void setMusicaSeleccionada(Musica musicaSeleccionada) {
+	public void setMusicaSeleccionada(MusicEntity musicaSeleccionada) {
 		this.musicaSeleccionada = musicaSeleccionada;
 	}
 
@@ -261,11 +261,11 @@ public class PesquisaAuxiliar implements Serializable {
 
 	}
 
-	public List<Musica> getListaPesquisa() {
+	public List<MusicEntity> getListaPesquisa() {
 		return listaPesquisa;
 	}
 
-	public void setListaPesquisa(List<Musica> listaPesquisa) {
+	public void setListaPesquisa(List<MusicEntity> listaPesquisa) {
 		this.listaPesquisa = listaPesquisa;
 	}
 

@@ -10,7 +10,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import ar.p4.ejb.beans.UserInterface;
-import ar.p4.entities.Utilizador;
+import ar.p4.entities.UserEntity;
 
 @Named
 @SessionScoped
@@ -20,7 +20,7 @@ public class UserSession implements Serializable {
 
 	private boolean isLogged;
 	private HttpSession session;
-	private Utilizador current;
+	private UserEntity current;
 	@Inject
 	private UserInterface ubean;
 	private String password;
@@ -93,11 +93,11 @@ public class UserSession implements Serializable {
 		this.isLogged = isLogged;
 	}
 
-	public Utilizador getCurrent() {
+	public UserEntity getCurrent() {
 		return current;
 	}
 
-	public void setCurrent(Utilizador current) {
+	public void setCurrent(UserEntity current) {
 		this.current = current;
 	}
 
