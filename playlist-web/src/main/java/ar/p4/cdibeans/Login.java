@@ -16,25 +16,24 @@ public class Login {
 	private UserInterface ubean;
 	@Inject
 	private UserSession userSession;
-	private UserEntity current;
+	private UserEntity newUser;
 
 	public Login() {
-		current = new UserEntity();
+		newUser = new UserEntity();
 	}
 
-	public String login() {
-			current = ubean.login(current);
-			if (current != null) {
-				userSession.setCurrent(current);
-				userSession.setLogged(true);
-				userSession.startSession();
-				return "/app/main?faces-redirect=true";
-			} else {
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"Login Failed. E-mail or Password incorrect.", "");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				return "";
-			}
+	public void login() {
+		System.out.println("Login method called");
+//			current = ubean.login(current);
+//			if (current != null) {
+//				userSession.setCurrent(current);
+//				userSession.setLogged(true);
+////				userSession.startSession();
+//			} else {
+//				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//						"Login Failed. E-mail or Password incorrect.", "");
+//				FacesContext.getCurrentInstance().addMessage(null, message);
+//			}
 	}
 
 	public String logout() {
@@ -43,7 +42,7 @@ public class Login {
 	}
 
 	public void register() {
-				boolean success = ubean.save(current);
+				boolean success = ubean.save(newUser);
 				if(success){
 					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"User registered successfully.", "");
@@ -53,15 +52,15 @@ public class Login {
 						"E-mail already registered", "");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				}
-			current = new UserEntity();
+			newUser = new UserEntity();
 	}
 
-	public UserEntity getCurrent() {
-		return current;
+	public UserEntity getNewUser() {
+		return newUser;
 	}
 
-	public void setCurrent(UserEntity current) {
-		this.current = current;
+	public void setNewUser(UserEntity newUser) {
+		this.newUser = newUser;
 	}
 
 }

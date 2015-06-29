@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import ar.p4.ejb.beans.UserInterface;
+import ar.p4.ejb.util.SecurityBean;
 import ar.p4.entities.UserEntity;
 
 @Named
@@ -22,50 +23,70 @@ public class UserSession implements Serializable {
 	private HttpSession session;
 	private UserEntity current;
 	@Inject
-	private UserInterface ubean;
+	private UserInterface userInterface;
 	private String password;
-	@Inject Login login;
+	@Inject
+	Login login;
+	@Inject SecurityBean securityBean;
 
 	public UserSession() {
-		current = null;
+		current = new UserEntity();
 		isLogged = false;
+	}
+
+	public void init() {
+		String mail = securityBean.getPrincipalName();
+		if(!mail.isEmpty()){
+		current.setMail(mail);
+		current = userInterface.findByEmail(mail);
+		// current = userInterface.login(current);
+		if (current != null) {
+			isLogged = true;
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"This mail is not registered.", "");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		} 
 	}
 
 	// editar informacao
 	public void editar() {
 		try {
-		ubean.update(current);
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"User info updated successfully.", "");
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (Exception e){
-			
+			userInterface.update(current);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"User info updated successfully.", "");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
 		}
 	}
 
 	public void editarPass() {
 		try {
-		current.setPassword(password);
-		ubean.updatePassword(current);
-		password="";
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Password updated successfully.", "");
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (Exception e){
-			
+			current.setPassword(password);
+			userInterface.updatePassword(current);
+			password = "";
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Password updated successfully.", "");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (Exception e) {
+
 		}
 	}
-	//apagar conta
-	public String deleteAccount(){
-		try{
-		ubean.delete(current);
-		return login.logout();
-		
-		} catch (Exception e){
-			
+
+	// apagar conta
+	public String deleteAccount() {
+		try {
+			userInterface.delete(current);
+			return login.logout();
+
+		} catch (Exception e) {
+
 		}
 		return null;
 	}
+
 	// Métodos para filtro da sessao HTTP //
 	public void startSession() {
 		session = (HttpSession) FacesContext.getCurrentInstance()
@@ -108,4 +129,5 @@ public class UserSession implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }

@@ -39,6 +39,9 @@ public class UserEntity {
 	
 	@OneToMany
 	private List<MusicEntity> userMusic;
+	
+	@Column(name="role")
+	private String role = "USER";
 
 	public UserEntity() {
 
@@ -96,6 +99,14 @@ public class UserEntity {
 
 	public void setUserMusic(List<MusicEntity> userMusic) {
 		this.userMusic = userMusic;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override

@@ -10,52 +10,55 @@
 </h:head>
 <!-- Body -->
 <h:body styleClass="indexbck">
-	<h1 style="margin:15px; font-size: 34px;">PrimeMusic</h1>
+	<h1 style="margin: 15px; font-size: 34px;">PrimeMusic</h1>
 	<div id="caixa-exterior-login">
 		<div id="login-caixa">
 			<h1>Login</h1>
-			<h:form>
+			<form action="j_security_check" method="POST">
 				<h:panelGrid columns="2" cellpadding="5" styleClass="grid-login">
-					<h:outputLabel for="mail" value="E-mail:" />
-					<p:inputText id="mail" required="true" label="mail" size="30"
-						value="#{login.current.mail}" />
-					<h:outputLabel for="password" value="Password:" />
-					<p:password id="password" required="true" label="password"
-						size="30" value="#{login.current.password}" />
+					<h:outputLabel for="j_username" value="E-mail"></h:outputLabel>
+					<p:inputText id="j_username" required="true" label="mail" size="30" />
+					<h:outputLabel for="j_password" value="Password"></h:outputLabel>
+					<p:password id="j_password" required="true" label="password"
+						size="30" />
 					<f:facet name="footer">
-						<p:commandButton value="Login" type="submit"
-							action="#{login.login()}" />
+						<p:button value="Login" type="submit"/>
 					</f:facet>
 				</h:panelGrid>
 				<p:growl id="msgs" life="2000" autoUpdate="true" />
-			</h:form>
+			</form>
+<!-- 			<form action="j_security_check" method="POST"> -->
+<!-- 				<input type="text" name="j_username" />  -->
+<!-- 				<input type="password" name="j_password" /> -->
+<!-- 				<button type="submit" >Submit</button> -->
+<!-- 			</form> -->
 		</div>
 
-		<div id="newuser-caixa">
-			<h1>Nova conta</h1>
-			<h:form>
-				<h:panelGrid columns="2" cellpadding="5" styleClass="grid-login">
-					<h:outputLabel for="nome" value="Nome:" />
-					<p:inputText id="nome" required="true" label="nome" size="30"
-						value="#{login.current.nome}" />
+<!-- 		<div id="newuser-caixa"> -->
+<!-- 			<h1>Nova conta</h1> -->
+<!-- 			<h:form> -->
+<!-- 				<h:panelGrid columns="2" cellpadding="5" styleClass="grid-login"> -->
+<!-- 					<h:outputLabel for="nome" value="Nome:" /> -->
+<!-- 					<p:inputText id="nome" required="true" label="nome" size="30" -->
+<!-- 						value="#{login.current.nome}" /> -->
 
-					<h:outputLabel for="mail" value="E-mail:" />
-					<p:inputText id="mail" required="true" label="mail" size="30"
-						value="#{login.current.mail}" />
+<!-- 					<h:outputLabel for="mail" value="E-mail:" /> -->
+<!-- 					<p:inputText id="mail" required="true" label="mail" size="30" -->
+<!-- 						value="#{login.current.mail}" /> -->
 
-					<h:outputLabel for="pwd1" value="Password:" />
-					<p:password id="pwd1" value="#{login.current.password}"
-						match="pwd2" label="Password 1" required="true" />
+<!-- 					<h:outputLabel for="pwd1" value="Password:" /> -->
+<!-- 					<p:password id="pwd1" value="#{login.current.password}" -->
+<!-- 						match="pwd2" label="Password 1" required="true" /> -->
 
-					<h:outputLabel for="pwd2" value="Confirm:" />
-					<p:password id="pwd2" label="Password 2" required="true" />
-					<f:facet name="footer">
-						<p:commandButton value="Register" type="submit"
-							action="#{login.register()}" update="@form" />
-					</f:facet>
-				</h:panelGrid>
-			</h:form>
-		</div>
+<!-- 					<h:outputLabel for="pwd2" value="Confirm:" /> -->
+<!-- 					<p:password id="pwd2" label="Password 2" required="true" /> -->
+<!-- 					<f:facet name="footer"> -->
+<!-- 						<p:commandButton value="Register" type="submit" -->
+<!-- 							action="#{login.register()}" update="@form" /> -->
+<!-- 					</f:facet> -->
+<!-- 				</h:panelGrid> -->
+<!-- 			</h:form> -->
+<!-- 		</div> -->
 	</div>
 </h:body>
 </html>
