@@ -16,7 +16,9 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+
 import ar.p4.ejb.beans.LyricInterface;
+/*import ar.p4.ejb.beans.LyricInterface;*/
 import ar.p4.ejb.beans.MusicaInterface;
 import ar.p4.entities.Musica;
 
@@ -28,8 +30,8 @@ public class MusicaCDIBean implements Serializable {
 
 	@Inject
 	MusicaInterface musicaBean;
-	/*@Inject
-	LyricInterface lyricBean;*/
+	@Inject
+	LyricInterface lyricBean;
 
 	@Inject
 	UserSession user;
@@ -81,7 +83,7 @@ public class MusicaCDIBean implements Serializable {
 
 				//adicionar liricas se fizer upload
 				
-				//lyricBean.findSave( (int)(long)musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );
+				lyricBean.findSave( musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );
 
 
 

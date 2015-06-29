@@ -25,7 +25,7 @@ public class LyricEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(name = "lyric")
+	@Column(name = "lyric", length=50000, nullable=true)
 	private String lyric;
 	@ManyToOne
 	private Musica music;

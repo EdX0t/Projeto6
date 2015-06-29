@@ -10,7 +10,7 @@ public interface LyricInterface {
 	public abstract void save(int utiID, int musicID, String lyric);
 	public abstract void update(LyricEntity lyric);
 	public abstract void delete(LyricEntity lyric);
-	public abstract String lyricUserMusic(int utiID, long musicID);
+	public abstract String lyricUserMusic(int utiID, int musicID);
 	public void findSave(int musicID, String song, String artista);
 
 }

@@ -9,6 +9,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 		<class>ar.p4.entities.Utilizador</class>
 		<class>ar.p4.entities.Playlist</class>
 		<class>ar.p4.entities.Musica</class>
+		<class>ar.p4.entities.LyricEntity</class>
 		<properties>
 			<!-- dialecto da BD -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

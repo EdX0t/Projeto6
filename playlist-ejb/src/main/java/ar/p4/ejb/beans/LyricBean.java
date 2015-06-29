@@ -51,9 +51,9 @@ public class LyricBean implements LyricInterface {
 
 	
 	@Override
-	public String lyricUserMusic(int utiID, long musicID) {
+	public String lyricUserMusic(int utiID, int musicID) {
 		
-		Musica music=musicDao.find((int)musicID);
+		Musica music=musicDao.find(musicID);
 		Utilizador uti=userDao.find(utiID);
 		LyricEntity lyricUti=lyricDao.lyricOfMUsic(uti, music);
 		if (lyricUti != null) return lyricUti.getLyric();
@@ -63,6 +63,7 @@ public class LyricBean implements LyricInterface {
 		
 		String lyric=lyricOfMusic(music.getTitulo(),music.getArtista());
 		return lyric;
+	
 	}
 	
 	
