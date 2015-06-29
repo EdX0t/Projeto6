@@ -26,6 +26,10 @@ public class LyricsREST {
 				ResteasyWebTarget target=cliente.target("http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+artist+"&song="+song);
 				Response response= target.request(MediaType.APPLICATION_XML).get();
 				listResult= response.readEntity(ArrayOfSearchLyricResult.class).getSearchLyricResult();
+				if(listResult.get(0).getArtist()==null && listResult.get(0).getSong()==null) {
+					System.out.println("Não encontra!!!");
+					return;
+				}
 				break;
 			} catch(Exception e){
 				//System.out.println("mensagem" + e.getMessage());
@@ -33,10 +37,7 @@ public class LyricsREST {
 			}
 		}
 		
-		if(listResult.get(0).getArtist()==null && listResult.get(0).getSong()==null) {
-			System.out.println("Não encontra!!!");
-			return;
-		}
+		
 		try{
 			for(SearchLyricResult result:listResult ){
 				if(result.getSong().equalsIgnoreCase(song)){

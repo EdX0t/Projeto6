@@ -16,6 +16,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+import ar.p4.ejb.beans.LyricInterface;
 import ar.p4.ejb.beans.MusicaInterface;
 import ar.p4.entities.Musica;
 
@@ -27,6 +28,8 @@ public class MusicaCDIBean implements Serializable {
 
 	@Inject
 	MusicaInterface musicaBean;
+	/*@Inject
+	LyricInterface lyricBean;*/
 
 	@Inject
 	UserSession user;
@@ -53,50 +56,56 @@ public class MusicaCDIBean implements Serializable {
 		this.file = e.getFile();
 	}
 	public void salvar() {
-		 if (file != null) {
-		 try {
-		 Properties props = System.getProperties();
-		 file.write(props.getProperty("user.dir") +
-		 "\\music\\" + user.getCurrent().getId()+"_"
-		 + file.getFileName());
-		 String path = "/music/" +user.getCurrent().getId()+"_"+ file.getFileName();
-		 this.musicaCriacao.setDono(user.getCurrent());
-		 this.musicaCriacao.setFilePath(path);
-		 musicaBean.save(this.musicaCriacao);
-		 // refresh nos paineis
-		 RequestContext.getCurrentInstance().update(
-		 Arrays.asList("frm:msgs", "frm:musica-table"));
-		 consultar();
-		 pesqAux.setMusicaSeleccionada(musicaSeleccionada);
-		 pesqAux.refreshLists();
-		 musicaSeleccionada = null;
-		 // mensagem de sucesso
-		 FacesMessage message = new FacesMessage(
-		 FacesMessage.SEVERITY_INFO, "Music added successfully",
-		 "");
-		 FacesContext.getCurrentInstance().addMessage(null, message);
-		
-		 } catch (Exception e) {
-		 FacesMessage msg = new FacesMessage(
-		 FacesMessage.SEVERITY_ERROR,
-		 "Error occured while uploading file.", null);
-		 FacesContext.getCurrentInstance().addMessage(null, msg);
-		 e.printStackTrace();
-		 }
-		 } else {
-		 FacesMessage msg = new FacesMessage(
-		 FacesMessage.SEVERITY_ERROR,
-		 "Please select an mp3 file to upload.", null);
-		 FacesContext.getCurrentInstance().addMessage(null, msg);
-		 }
+		if (file != null) {
+			try {
+				Properties props = System.getProperties();
+				file.write(props.getProperty("user.dir") +
+						"\\music\\" + user.getCurrent().getId()+"_"
+						+ file.getFileName());
+				String path = "/music/" +user.getCurrent().getId()+"_"+ file.getFileName();
+				this.musicaCriacao.setDono(user.getCurrent());
+				this.musicaCriacao.setFilePath(path);
+				musicaBean.save(this.musicaCriacao);
+				// refresh nos paineis
+				RequestContext.getCurrentInstance().update(
+						Arrays.asList("frm:msgs", "frm:musica-table"));
+				consultar();
+				pesqAux.setMusicaSeleccionada(musicaSeleccionada);
+				pesqAux.refreshLists();
+				musicaSeleccionada = null;
+				// mensagem de sucesso
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Music added successfully",
+						"");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+
+				//adicionar liricas se fizer upload
+				
+				//lyricBean.findSave( (int)(long)musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );
+
+
+
+			} catch (Exception e) {
+				FacesMessage msg = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						"Error occured while uploading file.", null);
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				e.printStackTrace();
+			}
+		} else {
+			FacesMessage msg = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"Please select an mp3 file to upload.", null);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 
 	}
 
 	public void editar() {
 		FacesMessage msg = new FacesMessage(
-				 FacesMessage.SEVERITY_INFO,
-				 "Music edited successfully!", null);
-				 FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesMessage.SEVERITY_INFO,
+				"Music edited successfully!", null);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 		musicaBean.update(this.musicaSeleccionada);
 		pesqAux.setMusicaSeleccionada(musicaSeleccionada);
 		musicaSeleccionada = null;

@@ -76,10 +76,27 @@
 				<h:outputText value="#{musica.album}" />
 			</p:column>
 
-			<p:column headerText="Release Date" width="25">
+			<p:column headerText="Release Date" width="15">
 				<h:outputText value="#{musica.anoLancamento}" />
 			</p:column>
+			<p:column headerText="Lyrics" width="15">
+				<!-- <h:outputText value="Lyrics" onclick="PF('dlg2').show();"/> -->
+				<h:outputLink id="openDialogLink" value="javascript:void(0)"
+					onclick="PF('dlg2').show();">Lyrics </h:outputLink>
+			</p:column>
+			<p:column headerText="Play" width="10">
+				<p:commandButton icon="ui-icon-triangle-1-e" title="Play music"
+					action="#{playlistCDIBean.play}" update=":play-form"
+					process="@this">
+					<f:setPropertyActionListener target="#{playlistCDIBean.musicaPlay}"
+						value="#{musica}" />
+				</p:commandButton>
+			</p:column>
 		</p:dataTable>
+		<p:dialog header="Lyric" widgetVar="dlg2" modal="true"
+			minimizable="true" maximizable="true">
+			<h:outputText value="This is a Modal Dialog." />
+		</p:dialog>
 	</h:form>
 </ui:composition>
 </html>
