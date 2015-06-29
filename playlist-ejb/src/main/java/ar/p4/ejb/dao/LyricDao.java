@@ -1,7 +1,5 @@
 package ar.p4.ejb.dao;
 
-import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ar.p4.entities.LyricEntity;

@@ -3,8 +3,7 @@ package ar.p4.ejb.beans;
 import javax.ejb.Local;
 
 import ar.p4.entities.LyricEntity;
-import ar.p4.entities.Musica;
-import ar.p4.entities.Utilizador;
+
 
 @Local
 public interface LyricInterface {

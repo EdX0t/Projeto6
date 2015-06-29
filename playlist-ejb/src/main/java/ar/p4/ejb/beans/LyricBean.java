@@ -1,7 +1,6 @@
 package ar.p4.ejb.beans;
 
 import javax.ejb.EJB;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -16,7 +15,7 @@ import ar.p4.entities.Utilizador;
 @Stateless
 public class LyricBean implements LyricInterface {
 
-	@EJB
+	@Inject
 	private LyricDao lyricDao;
 	@Inject
 	private MusicaDao musicDao;
