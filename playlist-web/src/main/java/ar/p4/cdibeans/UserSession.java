@@ -3,6 +3,7 @@ package ar.p4.cdibeans;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -27,10 +28,12 @@ public class UserSession implements Serializable {
 	private static final long serialVersionUID = -537522388020645530L;
 
 	private boolean isLogged;
+
 	private UserEntity current;
 	private UserEntity newUser;
 	@Inject
 	private UserInterface userInterface;
+
 	private String password;
 	@Inject
 	private SecurityBean securityBean;
