@@ -32,7 +32,7 @@ public class LyricSOAPorREST {
 
 		lyric=lyricRESTWiki (artist,song);
 		if(lyric!=null)	return lyric;
-		
+
 		return null;
 	}
 
@@ -40,10 +40,10 @@ public class LyricSOAPorREST {
 	private static String lyricSOAP(String artist, String song) {
 
 		Apiv1 api = new Apiv1();
-		Apiv1Soap soap =api.getApiv1Soap();
+		Apiv1Soap soap = api.getApiv1Soap();
 		ArrayOfSearchLyricResult arrayResult = null;
 		int contador = 0;
-		int maxnum=15;
+		int maxnum=30;
 
 		while(contador<maxnum){
 			try {
@@ -55,6 +55,12 @@ public class LyricSOAPorREST {
 			} catch (Exception e) {
 				//				e.printStackTrace();
 				System.out.println("Connecting...");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+				}
 			}
 			contador++;
 		}
@@ -64,16 +70,13 @@ public class LyricSOAPorREST {
 
 		int idLyric=-1;
 		String lyricCheckSum="";
-		try{
-			for(SearchLyricResult result:arrayResult.getSearchLyricResult() ){
-				if(result.getSong().equalsIgnoreCase(song)){
-					idLyric=result.getLyricId();
-					lyricCheckSum=result.getLyricChecksum();
-					break;
-				}
-			}
-		} catch (Exception e1){
 
+		for(SearchLyricResult result:arrayResult.getSearchLyricResult() ){
+			if(result.getSong().equalsIgnoreCase(song)){
+				idLyric=result.getLyricId();
+				lyricCheckSum=result.getLyricChecksum();
+				break;
+			}
 		}
 		contador = 0;
 		while(contador<maxnum){
@@ -82,6 +85,12 @@ public class LyricSOAPorREST {
 				return result.getLyric();
 			} catch (Exception e){
 				System.out.println("não fizeste nada!!!");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+				}
 			}
 			contador++;
 		}
@@ -109,23 +118,25 @@ public class LyricSOAPorREST {
 			} catch(Exception e){
 				//System.out.println("mensagem" + e.getMessage());
 				System.out.println(1);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+				}
 			}
 			contador++;
 		}
 
-		try{
-			for(SearchLyricResult result:listResult ){
-				if(result.getSong().equalsIgnoreCase(song)){
-					idLyric=result.getLyricId();
-					lyricCheckSum=result.getLyricChecksum();
-					break;
-				}
+		for(SearchLyricResult result:listResult ){
+			if(result.getSong().equalsIgnoreCase(song)){
+				idLyric=result.getLyricId();
+				lyricCheckSum=result.getLyricChecksum();
+				break;
 			}
-			if(idLyric == -1){
-				return null;
-			}
-		} catch (Exception e1){
-			System.out.println(2);
+		}
+		if(idLyric == -1){
+			return null;
 		}
 
 		String lyric="";
@@ -139,6 +150,12 @@ public class LyricSOAPorREST {
 			} catch(Exception e){
 				//e.printStackTrace();
 				System.out.println(3);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+				}
 			}
 			contador++;
 		}
