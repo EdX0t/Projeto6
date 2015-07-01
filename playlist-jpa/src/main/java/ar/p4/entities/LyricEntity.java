@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,11 +16,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "Lyrics")
-@NamedQuery(name = "LyricByUserANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador=:utilizador and l.music=:music")
+@NamedQueries({
+@NamedQuery(name = "LyricByUserANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador=:utilizador and l.music=:music"),
+@NamedQuery(name = "LyricByNullANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador is NUll and l.music=:music")
+})
 @XmlRootElement
 public class LyricEntity {
 	
 	public static final String LYRICS_BY_USER_MUSIC = "LyricByUserANDMusic";
+	public static final String LYRICS_BY_Null_MUSIC = "LyricByNullANDMusic";
 
 
 	@Id
