@@ -1,6 +1,6 @@
 package ar.p4.ejb.beans;
 
-import javax.ejb.EJB;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -52,17 +52,20 @@ public class LyricBean implements LyricInterface {
 	
 	@Override
 	public String lyricUserMusic(int utiID, int musicID) {
-		
+		System.out.println("uti "+utiID);
 		Musica music=musicDao.find(musicID);
+		if(music==null)return null;
 		Utilizador uti=userDao.find(utiID);
 		LyricEntity lyricUti=lyricDao.lyricOfMUsic(uti, music);
 		if (lyricUti != null) return lyricUti.getLyric();
+		System.out.println(lyricUti);
 		
 		LyricEntity lyricNull=lyricDao.lyricOfMUsic(null, music);
 		if(lyricNull != null) return lyricNull.getLyric();
+		System.out.println(lyricNull);
 		
-		String lyric=lyricOfMusic(music.getTitulo(),music.getArtista());
-		return lyric;
+		//String lyric=lyricOfMusic(music.getTitulo(),music.getArtista());
+		return null;
 	
 	}
 	
