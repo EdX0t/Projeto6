@@ -35,10 +35,13 @@
 				<p:column headerText="Release Date" width="15%">
 					<h:outputText value="#{musica.anoLancamento}" />
 				</p:column>
-				<p:column headerText="Lyrics" width="10%">
-					<!-- <h:outputText value="Lyrics" onclick="PF('dlg2').show();"/> -->
-					<h:outputLink id="openDialogLink" value="javascript:void(0)"
-						onclick="PF('dlg2').show();">Lyrics </h:outputLink>
+				<p:column headerText="Lyrics" width="25">
+					<p:commandButton icon="ui-icon-note" type="submit"
+						oncomplete="PF('dlg2').show();" update="music-form"
+						process="@this">
+						<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
+							value="#{musica.id}" />
+					</p:commandButton>
 				</p:column>
 				<p:column headerText="Remove" width="8%">
 					<p:commandButton icon="ui-icon-trash" title="Delete"
@@ -49,10 +52,12 @@
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
-			<p:dialog header="Lyric" widgetVar="dlg2" modal="true"
+			<!-- Formulario Lyric  -->
+			<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
 				minimizable="true" maximizable="true">
-				<h:outputText value="This is a Modal Dialog." />
+				<p:inputTextarea value="#{lyricsCDIBean.lyric}" />
 			</p:dialog>
+			
 			<p:confirmDialog header="Removal confirmation" showEffect="explode"
 				hideEffect="explode" message="Remove music from playlist?"
 				widgetVar="remover-da-playlist" id="dialog-removeMusica">

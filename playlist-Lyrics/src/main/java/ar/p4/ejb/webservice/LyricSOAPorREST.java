@@ -95,7 +95,7 @@ public class LyricSOAPorREST {
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		List <SearchLyricResult> listResult=null;
 		int contador = 0;
-		int maxnum=15;
+		int maxnum=20;
 
 		while(contador<maxnum){
 			try{
@@ -150,7 +150,7 @@ public class LyricSOAPorREST {
 		String lyric="";
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		int contador = 0;
-		int maxnum=15;
+		int maxnum=10;
 
 		while(contador<maxnum){
 			try{

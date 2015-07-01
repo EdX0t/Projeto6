@@ -79,10 +79,12 @@
 			<p:column headerText="Release Date" width="15">
 				<h:outputText value="#{musica.anoLancamento}" />
 			</p:column>
-			<p:column headerText="Lyrics" width="15">
-				<!-- <h:outputText value="Lyrics" onclick="PF('dlg2').show();"/> -->
-				<h:outputLink id="openDialogLink" value="javascript:void(0)"
-					onclick="PF('dlg2').show();">Lyrics </h:outputLink>
+			<p:column headerText="Lyrics" width="25">
+				<p:commandButton icon="ui-icon-note" type="submit"
+					oncomplete="PF('dlg2').show();" update="form-search" process="@this">
+					<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
+						value="#{musica.id}" />
+				</p:commandButton>
 			</p:column>
 			<p:column headerText="Play" width="10">
 				<p:commandButton icon="ui-icon-triangle-1-e" title="Play music"
@@ -93,9 +95,10 @@
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
-		<p:dialog header="Lyric" widgetVar="dlg2" modal="true"
+		<!-- Formulario Lyric  -->
+		<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
 			minimizable="true" maximizable="true">
-			<h:outputText value="This is a Modal Dialog." />
+			<p:inputTextarea value="#{lyricsCDIBean.lyric}" />
 		</p:dialog>
 	</h:form>
 </ui:composition>

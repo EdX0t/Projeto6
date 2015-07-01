@@ -39,7 +39,7 @@ public class LyricBean implements LyricInterface {
 	}
 	
 	@Override
-	public void findSave (int musicID, String song, String artista){
+	public String findSave (int musicID, String song, String artista){
 		Musica music=musicDao.find(musicID);
 		System.out.println(musicID + "Musica---" + music);
 		String lyric=lyricOfMusic(song,artista);
@@ -47,6 +47,8 @@ public class LyricBean implements LyricInterface {
 			LyricEntity lyricEntity= new LyricEntity(lyric, music, null);
 			lyricDao.save(lyricEntity);
 		}
+		
+		return lyric;
 	}
 
 	
@@ -64,8 +66,9 @@ public class LyricBean implements LyricInterface {
 		if(lyricNull != null) return lyricNull.getLyric();
 		System.out.println(lyricNull);
 		
-		//String lyric=lyricOfMusic(music.getTitulo(),music.getArtista());
-		return null;
+		String lyric=findSave(musicID, music.getTitulo(),music.getArtista());
+		
+		return lyric;
 	
 	}
 	
