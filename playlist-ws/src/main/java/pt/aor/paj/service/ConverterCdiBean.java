@@ -5,20 +5,24 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import pt.aor.paj.model.Song;
-import pt.aor.paj.model.Songs;
+import pt.aor.paj.model.LoggedUsers;
 import pt.aor.paj.model.Playlist;
 import pt.aor.paj.model.Playlists;
+import pt.aor.paj.model.Song;
+import pt.aor.paj.model.Songs;
 import pt.aor.paj.model.User;
 import pt.aor.paj.model.Users;
 import ar.p4.ejb.beans.MusicInterface;
 import ar.p4.ejb.beans.PlaylistInterface;
 import ar.p4.ejb.beans.UserInterface;
+import ar.p4.ejb.util.LoggedUserUtil;
 import ar.p4.entities.MusicEntity;
 import ar.p4.entities.PlaylistEntity;
 import ar.p4.entities.UserEntity;
 
+@Named
 @RequestScoped
 public class ConverterCdiBean {
 
@@ -28,8 +32,9 @@ public class ConverterCdiBean {
 	private PlaylistInterface playlistInterface;
 	@Inject
 	MusicInterface musicInterface;
+	@Inject private LoggedUserUtil loggedUtil;
+	private LoggedUsers loggedUsers;
 	private Users users;
-	private Playlists playlists;
 
 	public ConverterCdiBean() {
 
@@ -194,6 +199,16 @@ public class ConverterCdiBean {
 		return true;
 		}
 		return false;
+	}
+	public LoggedUsers getLoggedUsers(){
+		ArrayList<UserEntity> entitiesList = loggedUtil.getLoggedUsersList();
+		loggedUsers = new LoggedUsers();
+		// fazer conversao
+		for (UserEntity entity : entitiesList) {
+			loggedUsers.getUser().add(convertUser(entity));
+		}
+		// devolver objecto com coleccao como atributo
+		return loggedUsers;
 	}
 
 }

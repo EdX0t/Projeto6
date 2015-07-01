@@ -9,22 +9,22 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SecurityBean {
-	@Resource SessionContext ctx;
+	@Resource
+	SessionContext ctx;
 
-    /**
-     * Default constructor. 
-     */
-    public SecurityBean() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public SecurityBean() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getPrincipalName() {
 		String name = "";
-		if(ctx!=null){
-		name = ctx.getCallerPrincipal().getName();
+		if (ctx != null) {
+			name = ctx.getCallerPrincipal().getName();
 		}
 		return name;
 	}
 
-    
 }

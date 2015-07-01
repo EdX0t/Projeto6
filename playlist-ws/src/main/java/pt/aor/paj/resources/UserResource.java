@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import pt.aor.paj.model.LoggedUsers;
 import pt.aor.paj.model.Playlists;
 import pt.aor.paj.model.Songs;
 import pt.aor.paj.model.User;
@@ -123,5 +124,21 @@ public class UserResource {
 		else
 			return Response.notModified().build();
 	}
-
+	
+	//lista de users logados
+	@GET
+	@Path("/loggedusers")
+	@Produces(MediaType.APPLICATION_XML)
+	public LoggedUsers getLoggedUsers(){
+		return converterCdiBean.getLoggedUsers();
+	}
+	
+	//numero de users logados
+	@GET
+	@Produces({ MediaType.TEXT_PLAIN })
+	@Path("loggedusers/total")
+	public String getLoggedNumber() {
+		String numUsers = String.valueOf(converterCdiBean.getLoggedUsers().getUser().size());
+		return numUsers;
+	}
 }

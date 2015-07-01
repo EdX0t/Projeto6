@@ -9,7 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
-<h:body>
+<h:body onunload="clean()" >
 	<f:metadata>
 		<f:viewAction actionListener="#{playlistCDIBean.init()}" />
 		<f:viewAction actionListener="#{musicaCDIBean.consultar()}" />

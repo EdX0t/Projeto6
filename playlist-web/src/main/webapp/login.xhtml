@@ -26,11 +26,31 @@
 				</h:panelGrid>
 				<p:growl id="msgs" life="2000" autoUpdate="true" />
 			</form>
-			<!-- 			<form action="j_security_check" method="POST"> -->
-			<!-- 				<input type="text" name="j_username" />  -->
-			<!-- 				<input type="password" name="j_password" /> -->
-			<!-- 				<button type="submit" >Submit</button> -->
-			<!-- 			</form> -->
+		</div>
+		<div id="newuser-caixa"> -->
+			<h1>Nova conta</h1>
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5" styleClass="grid-login">
+					<h:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" required="true" label="nome" size="30"
+						value="#{userSession.newUser.nome}" />
+
+					<h:outputLabel for="mail" value="E-mail:" />
+					<p:inputText id="mail" required="true" label="mail" size="30"
+						value="#{userSession.newUser.mail}" />
+
+					<h:outputLabel for="pwd1" value="Password:" />
+					<p:password id="pwd1" value="#{userSession.newUser.password}"
+						match="pwd2" label="Password 1" required="true" />
+
+					<h:outputLabel for="pwd2" value="Confirm:" />
+					<p:password id="pwd2" label="Password 2" required="true" />
+					<f:facet name="footer">
+						<p:commandButton value="Register" type="submit"
+							action="#{userSession.register()}" update="@form" />
+					</f:facet>
+				</h:panelGrid>
+			</h:form>
 		</div>
 	</div>
 </h:body>

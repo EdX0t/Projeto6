@@ -9,10 +9,14 @@
 	<h:graphicImage library="images" name="icon.jpg"
 		style="float:left; height:70px;" />
 	<h1 style="float: left; margin-left: 25px; margin-top: 15px;">PrimeMusic</h1>
+	<!-- form para limpar pagina qd browser é fechado -->
+	<h:form>
+	<p:remoteCommand name="clean" actionListener="#{userSession.cleanSessionOnBrowserClose}" />
+	</h:form>
 	<!--  botao logout -->
 	<h:form id="form-logout">
 		<p:commandButton value="Logout" icon="ui-icon-power"
-			action="#{login.logout}"
+			actionListener="#{userSession.endSession}" ajax="false"
 			style="float:right; height:32px; margin-top:19px;margin-right: 10px;" />
 	</h:form>
 
@@ -42,10 +46,6 @@
 		style="float:right; margin-top:19px; margin-right: 10px;">
 		<audio src="#{playlistCDIBean.url}" controls="controls"
 			autoplay="autoplay" />
-		<!-- 		<p:media id="media" value="#{playlistCDIBean.url}" player="flash" -->
-		<!-- 			width="350px" height="55px" style="float:right; margin-top:19px; margin-right: 10px; padding:0px;" > -->
-		<!-- 			<f:param name="autoPlay" value="true" /> -->
-		<!-- 		</p:media> -->
 	</h:form>
 
 	<!-- Dialog encerrar conta -->
