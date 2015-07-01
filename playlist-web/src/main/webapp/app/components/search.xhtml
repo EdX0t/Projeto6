@@ -76,10 +76,30 @@
 				<h:outputText value="#{musica.album}" />
 			</p:column>
 
-			<p:column headerText="Release Date" width="25">
+			<p:column headerText="Release Date" width="15">
 				<h:outputText value="#{musica.anoLancamento}" />
 			</p:column>
+			<p:column headerText="Lyrics" width="25">
+				<p:commandButton icon="ui-icon-note" type="submit"
+					oncomplete="PF('dlg2').show();" update="form-search" process="@this">
+					<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
+						value="#{musica.id}" />
+				</p:commandButton>
+			</p:column>
+			<p:column headerText="Play" width="10">
+				<p:commandButton icon="ui-icon-triangle-1-e" title="Play music"
+					action="#{playlistCDIBean.play}" update=":play-form"
+					process="@this">
+					<f:setPropertyActionListener target="#{playlistCDIBean.musicaPlay}"
+						value="#{musica}" />
+				</p:commandButton>
+			</p:column>
 		</p:dataTable>
+		<!-- Formulario Lyric  -->
+		<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
+			minimizable="true" maximizable="true">
+			<p:inputTextarea value="#{lyricsCDIBean.lyric}" />
+		</p:dialog>
 	</h:form>
 </ui:composition>
 </html>
