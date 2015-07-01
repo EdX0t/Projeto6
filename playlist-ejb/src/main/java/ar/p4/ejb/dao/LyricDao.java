@@ -15,9 +15,19 @@ public class LyricDao extends GenericDao<LyricEntity> {
 	}
 
 	public LyricEntity lyricOfMUsic(Utilizador uti, Musica music){
-		TypedQuery<LyricEntity> q = em.createNamedQuery(LyricEntity.LYRICS_BY_USER_MUSIC, LyricEntity.class);
-		q.setParameter("utilizador",uti);
-		q.setParameter("music",music);
+		TypedQuery<LyricEntity> q;
+		
+		if (uti == null) {
+			q = em.createQuery("from LyricEntity l where l.utilizador is NUll and "
+					+ "l.music = :music", LyricEntity.class);
+			q.setParameter("music",music);
+		}
+		else {
+			q = em.createQuery("from LyricEntity l where l.utilizador = :utilizador and "
+					+ "l.music = :music", LyricEntity.class);
+			q.setParameter("music",music);
+			q.setParameter("utilizador",uti);
+		}
 		if(q.getResultList().isEmpty()){
 			return null;
 		} else {
