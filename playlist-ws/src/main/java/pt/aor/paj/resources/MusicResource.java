@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.aor.paj.model.Song;
 import pt.aor.paj.model.Songs;
+import pt.aor.paj.model.Total;
 import pt.aor.paj.service.ConverterCdiBean;
 
 @Stateless
@@ -22,12 +23,13 @@ public class MusicResource {
 	private static final Logger log = LoggerFactory.getLogger(MusicResource.class);
 	
 	@GET
-	@Produces({ MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/total")
-	public String getMessage() {
+	public Total getSongsNumber() {
 		log.info("Getting the number of songs in database.");
-		String numUsers = String.valueOf(converterCdiBean.getAllSongs().getSong().size());
-		return numUsers;
+		Total totalSongs = new Total();
+		totalSongs.setTotal(converterCdiBean.getAllSongs().getSong().size());
+		return totalSongs;
 	}
 
 	@GET

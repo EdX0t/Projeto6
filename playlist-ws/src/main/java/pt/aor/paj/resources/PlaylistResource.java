@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import pt.aor.paj.model.Playlists;
 import pt.aor.paj.model.Song;
 import pt.aor.paj.model.Songs;
+import pt.aor.paj.model.Total;
 import pt.aor.paj.service.ConverterCdiBean;
 import ar.p4.entities.PlaylistEntity;
 
@@ -30,13 +31,14 @@ public class PlaylistResource {
 
 	// numero de playlists
 	@GET
-	@Produces({ MediaType.TEXT_PLAIN })
+	@Produces(MediaType.APPLICATION_XML)
 	@Path("/total")
-	public String getMessage() {
+	public Total getMessage() {
 		log.info("Getting the number of playlists in database.");
-		String numPlaylists = String.valueOf(converterCdiBean.getAllPlaylists()
+		Total totalPlaylists = new Total();
+		totalPlaylists.setTotal(converterCdiBean.getAllPlaylists()
 				.getPlaylist().size());
-		return numPlaylists;
+		return totalPlaylists;
 	}
 
 	// lista de todas as playlists
