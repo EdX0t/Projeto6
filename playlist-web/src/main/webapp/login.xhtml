@@ -10,6 +10,9 @@
 </h:head>
 <h:body styleClass="indexbck">
 	<h1 style="margin: 15px; font-size: 34px;">PrimeMusic</h1>
+	<h:form id="messages-form">
+		<p:growl id="msgs" life="2000" autoUpdate="true" />
+	</h:form>
 	<div id="caixa-exterior-login">
 		<div id="login-caixa">
 			<h1>Login</h1>
@@ -20,14 +23,13 @@
 					<h:outputLabel for="j_password" value="Password">#{bundle['login.password']}:</h:outputLabel>
 					<p:password id="j_password" required="true" label="password"
 						size="30" />
-					<f:facet name="footer">
-						<h:commandButton value="Login" type="submit"  />
-					</f:facet>
+							<f:facet name="footer">
+					<h:commandButton value="Login" type="submit" />
+				</f:facet>
 				</h:panelGrid>
-				<p:growl id="msgs" life="2000" autoUpdate="true" />
 			</form>
 		</div>
-		<div id="newuser-caixa"> -->
+		<div id="newuser-caixa">
 			<h1>Nova conta</h1>
 			<h:form>
 				<h:panelGrid columns="2" cellpadding="5" styleClass="grid-login">

@@ -33,6 +33,16 @@ public class LoggedUserUtil {
 	public void setLoggedUsersList(ArrayList<UserEntity> loggedUsersList) {
 		this.loggedUsersList = loggedUsersList;
 	}
+	public void addUser(UserEntity user){
+		if(!loggedUsersList.contains(user)){
+			loggedUsersList.add(user);
+		}
+	}
+	public void removeUser(UserEntity user){
+		if(loggedUsersList.contains(user)){
+			loggedUsersList.remove(user);
+		}
+	}
     
 
 }

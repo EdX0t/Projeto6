@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.NotFoundException;
 
 import pt.aor.paj.model.LoggedUsers;
 import pt.aor.paj.model.Playlist;
@@ -52,14 +53,19 @@ public class ConverterCdiBean {
 	}
 
 	public User findUserById(int id) {
-		return convertUser(userInterface.findById(id));
+		UserEntity user = userInterface.findById(id);
+		checkUser(user);
+		return convertUser(user);
 	}
 	
 	public User findUserByEmail(String email) {
-		return convertUser(userInterface.findByEmail(email));
+		UserEntity user = userInterface.findByEmail(email);
+		checkUser(user);
+		return convertUser(user);
 	}
 
 	public Playlists getPlaylists(UserEntity user) {
+		checkUser(user);
 		List<PlaylistEntity> entitiesList = playlistInterface
 				.allPlaylists(user);
 		Playlists playlists = new Playlists();
@@ -70,6 +76,7 @@ public class ConverterCdiBean {
 	}
 
 	public Songs getMusic(UserEntity temp) {
+		checkUser(temp);
 		List<MusicEntity> musicList = musicInterface.findAllByUser(temp);
 		Songs songs = new Songs();
 		for (MusicEntity entity : musicList) {
@@ -77,6 +84,12 @@ public class ConverterCdiBean {
 		}
 
 		return songs;
+	}
+	public void checkUser(UserEntity user){
+		UserEntity userEntity = userInterface.findById(user.getId());
+		if(userEntity == null){
+			throw new NotFoundException();
+		}
 	}
 
 	// playlists
@@ -193,7 +206,10 @@ public class ConverterCdiBean {
 	}
 	
 	public boolean deleteSongFromUser(int idUser, int idSong){
-		if(idUser>0 && idSong>0){
+		UserEntity user =userInterface.findById(idUser);
+		if(user == null){
+			throw new NotFoundException();
+		} else if(idUser>0 && idSong>0){
 		MusicEntity musicEntity = musicInterface.find(idSong);
 		musicInterface.delete(musicEntity);
 		return true;
