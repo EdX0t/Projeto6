@@ -24,7 +24,7 @@
 				<p:column headerText="Title" width="25%">
 					<h:outputText value="#{musica.titulo}" />
 				</p:column>
-				<p:column headerText="Artist" width="25%">
+				<p:column headerText="Artist" width="17%">
 					<h:outputText value="#{musica.artista}" />
 				</p:column>
 
@@ -32,8 +32,16 @@
 					<h:outputText value="#{musica.album}" />
 				</p:column>
 
-				<p:column headerText="Release Date" width="17%">
+				<p:column headerText="Release Date" width="15%">
 					<h:outputText value="#{musica.anoLancamento}" />
+				</p:column>
+				<p:column headerText="Lyrics" width="25">
+					<p:commandButton icon="ui-icon-note" type="submit"
+						oncomplete="PF('dlg2').show();" update="music-form"
+						process="@this">
+						<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
+							value="#{musica.id}" />
+					</p:commandButton>
 				</p:column>
 				<p:column headerText="Remove" width="8%">
 					<p:commandButton icon="ui-icon-trash" title="Delete"
@@ -44,6 +52,12 @@
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
+			<!-- Formulario Lyric  -->
+			<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
+				minimizable="true" maximizable="true">
+				<p:inputTextarea value="#{lyricsCDIBean.lyric}"/>
+			</p:dialog>
+			
 			<p:confirmDialog header="Removal confirmation" showEffect="explode"
 				hideEffect="explode" message="Remove music from playlist?"
 				widgetVar="remover-da-playlist" id="dialog-removeMusica">

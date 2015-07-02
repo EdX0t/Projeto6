@@ -28,7 +28,9 @@ public class MusicEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+
+	private int id;
+
 	
 	@NotEmpty
 	@Column(name = "titulo", nullable = false, length = 40)
@@ -76,11 +78,13 @@ public class MusicEntity implements Serializable {
 		this.dono = dono;
 	}
 
-	public Integer getId() {
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
+
 		this.id = id;
 	}
 
