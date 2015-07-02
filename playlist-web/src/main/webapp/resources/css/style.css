@@ -98,3 +98,7 @@ td {
 	background-repeat:no-repeat;
     background-size:cover;
 }
+.buttonsizing {
+	width: 80px;
+  height: 28px;
+}
