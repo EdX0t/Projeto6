@@ -14,7 +14,7 @@ import ar.p4.entities.UserEntity;
 @LocalBean
 public class LoggedUserUtil {
 	
-	private ArrayList<UserEntity> loggedUsersList;
+	private ArrayList<UserEntity> loggedUsersList = new ArrayList<UserEntity>(); ;
 
     /**
      * Default constructor. 
@@ -24,14 +24,21 @@ public class LoggedUserUtil {
     }
 
 	public ArrayList<UserEntity> getLoggedUsersList() {
-		if(loggedUsersList == null)
-			loggedUsersList = new ArrayList<UserEntity>();
-		
 		return loggedUsersList;
 	}
 
 	public void setLoggedUsersList(ArrayList<UserEntity> loggedUsersList) {
 		this.loggedUsersList = loggedUsersList;
+	}
+	public void addUser(UserEntity user){
+		if(!loggedUsersList.contains(user)){
+			loggedUsersList.add(user);
+		}
+	}
+	public void removeUser(UserEntity user){
+		if(loggedUsersList.contains(user)){
+			loggedUsersList.remove(user);
+		}
 	}
     
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.NotFoundException;
 
 import pt.aor.paj.model.LoggedUsers;
 import pt.aor.paj.model.Playlist;
@@ -52,14 +53,20 @@ public class ConverterCdiBean {
 	}
 
 	public User findUserById(int id) {
-		return convertUser(userInterface.findById(id));
+		UserEntity user = userInterface.findById(id);
+		if(user == null)
+			throw new NotFoundException();
+		return convertUser(user);
 	}
 	
 	public User findUserByEmail(String email) {
-		return convertUser(userInterface.findByEmail(email));
+		UserEntity user = userInterface.findByEmail(email);
+		checkUser(user);
+		return convertUser(user);
 	}
 
 	public Playlists getPlaylists(UserEntity user) {
+		checkUser(user);
 		List<PlaylistEntity> entitiesList = playlistInterface
 				.allPlaylists(user);
 		Playlists playlists = new Playlists();
@@ -70,6 +77,7 @@ public class ConverterCdiBean {
 	}
 
 	public Songs getMusic(UserEntity temp) {
+		checkUser(temp);
 		List<MusicEntity> musicList = musicInterface.findAllByUser(temp);
 		Songs songs = new Songs();
 		for (MusicEntity entity : musicList) {
@@ -77,6 +85,22 @@ public class ConverterCdiBean {
 		}
 
 		return songs;
+	}
+	public void checkUser(UserEntity user){
+		if(userInterface.findById(user.getId()) == null){
+			throw new NotFoundException();
+		}
+	}
+	
+	public void checkPlaylist(PlaylistEntity user){
+		if(playlistInterface.getPlaylistById(user.getId()) == null){
+			throw new NotFoundException();
+		}
+	}
+	public void checkMusic(MusicEntity user){
+		if(musicInterface.find(user.getId()) == null){
+			throw new NotFoundException();
+		}
 	}
 
 	// playlists
@@ -91,6 +115,7 @@ public class ConverterCdiBean {
 
 	// lista de musicas numa playlist
 	public Songs getSongsInPlaylist(PlaylistEntity playlist) {
+		checkPlaylist(playlist);
 		List<MusicEntity> musicList = playlistInterface.getPlaylistById(
 				playlist.getId()).getMusicas();
 		Songs songList = new Songs();
@@ -112,6 +137,9 @@ public class ConverterCdiBean {
 
 	// encontrar musica por id
 	public Song findMusicById(int id) {
+		if(musicInterface.find(id)==null){
+			throw new NotFoundException();
+		}
 		return convertMusic(musicInterface.find(id));
 	}
 
@@ -154,6 +182,9 @@ public class ConverterCdiBean {
 	}
 
 	public boolean removeUser(int id) {
+		UserEntity entity = new UserEntity();
+		entity.setId(id);
+		checkUser(entity);
 		if(id>0){
 		userInterface.delete(userInterface.findById(id));
 		return true;
@@ -162,6 +193,7 @@ public class ConverterCdiBean {
 	}
 
 	public boolean updatePassword(User user) {
+		checkUser(convertToUserEntity(user));
 		if(user.getPassword() != null && user.getId()>0){
 		UserEntity entity = userInterface.findById(user.getId());
 		entity.setPassword(user.getPassword());
@@ -172,6 +204,10 @@ public class ConverterCdiBean {
 	}
 
 	public boolean removeSongFromPlaylist(int songId, int playlistId) {
+		MusicEntity musicCheckEntity = new MusicEntity(); musicCheckEntity.setId(songId);
+		PlaylistEntity playlistCheckEntity = new PlaylistEntity(); playlistCheckEntity.setId(playlistId);
+		checkPlaylist(playlistCheckEntity);
+		checkMusic(musicCheckEntity);
 		if(songId>0 && playlistId>0){
 			MusicEntity musicEntity = musicInterface.find(songId);
 			PlaylistEntity playlistEntity = playlistInterface.getPlaylistById(playlistId);
@@ -182,6 +218,10 @@ public class ConverterCdiBean {
 	}
 
 	public boolean addSongToPlaylist(Song song, int id) {
+		MusicEntity musicCheckEntity = new MusicEntity(); musicCheckEntity.setId(song.getId());
+		PlaylistEntity playlistCheckEntity = new PlaylistEntity(); playlistCheckEntity.setId(id);
+		checkPlaylist(playlistCheckEntity);
+		checkMusic(musicCheckEntity);
 		boolean added=false;
 		if(song.getId()>0 && id>0){
 			MusicEntity musicEntity = musicInterface.find(song.getId());
@@ -193,12 +233,14 @@ public class ConverterCdiBean {
 	}
 	
 	public boolean deleteSongFromUser(int idUser, int idSong){
-		if(idUser>0 && idSong>0){
+		UserEntity user =userInterface.findById(idUser);
+		MusicEntity music = musicInterface.find(idSong);
+		if(user == null || music == null){
+			throw new NotFoundException();
+		} 
 		MusicEntity musicEntity = musicInterface.find(idSong);
 		musicInterface.delete(musicEntity);
 		return true;
-		}
-		return false;
 	}
 	public LoggedUsers getLoggedUsers(){
 		ArrayList<UserEntity> entitiesList = loggedUtil.getLoggedUsersList();
@@ -212,3 +254,4 @@ public class ConverterCdiBean {
 	}
 
 }
+

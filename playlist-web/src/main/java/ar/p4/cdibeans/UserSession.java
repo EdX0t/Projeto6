@@ -1,20 +1,14 @@
 package ar.p4.cdibeans;
 
-import java.io.IOException;
 import java.io.Serializable;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-import javax.management.ObjectName;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import ar.p4.ejb.beans.UserInterface;
 import ar.p4.ejb.util.LoggedUserUtil;
@@ -28,12 +22,10 @@ public class UserSession implements Serializable {
 	private static final long serialVersionUID = -537522388020645530L;
 
 	private boolean isLogged;
-
 	private UserEntity current;
 	private UserEntity newUser;
 	@Inject
 	private UserInterface userInterface;
-
 	private String password;
 	@Inject
 	private SecurityBean securityBean;
@@ -51,24 +43,15 @@ public class UserSession implements Serializable {
 		if (!mail.isEmpty()) {
 			current.setMail(mail);
 			current = userInterface.findByEmail(mail);
-			// current = userInterface.login(current);
 			if (current != null) {
 				isLogged = true;
-				loggedUtil.getLoggedUsersList().add(current);
+				loggedUtil.addUser(current);
 			} else {
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO,
 						"This mail is not registered.", "");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		}
-	}
-	
-	public void cleanSessionOnBrowserClose(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		if(session != null){
-			loggedUtil.getLoggedUsersList().remove(current);
-			session.invalidate();
 		}
 	}
 
@@ -104,25 +87,32 @@ public class UserSession implements Serializable {
 			return endSession();
 
 		} catch (Exception e) {
-
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Could not delete user account",
+					"");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		return null;
 	}
 
-
 	public String endSession() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		
+		HttpServletRequest request = (HttpServletRequest) context
+				.getExternalContext().getRequest();
+
 		try {
 			isLogged = false;
-			loggedUtil.getLoggedUsersList().remove(current);
+			loggedUtil.removeUser(current);
 			request.logout();
-		} catch(ServletException e){
-			context.addMessage(null, new FacesMessage("Logout Failed."));
+			request.getSession().invalidate();
+		} catch (ServletException e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Logout Failed",
+					"");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		return "/login.xhtml?faces-redirect=true";
-		
+		return "/app/main.xhtml?faces-redirect=true";
+
 	}
 
 	public void register() {

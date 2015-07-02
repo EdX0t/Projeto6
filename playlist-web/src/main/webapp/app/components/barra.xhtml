@@ -9,14 +9,11 @@
 	<h:graphicImage library="images" name="icon.jpg"
 		style="float:left; height:70px;" />
 	<h1 style="float: left; margin-left: 25px; margin-top: 15px;">PrimeMusic</h1>
-	<!-- form para limpar pagina qd browser é fechado -->
-	<h:form>
-	<p:remoteCommand name="clean" actionListener="#{userSession.cleanSessionOnBrowserClose}" />
-	</h:form>
+
 	<!--  botao logout -->
 	<h:form id="form-logout">
-		<p:commandButton value="Logout" icon="ui-icon-power"
-			actionListener="#{userSession.endSession}" ajax="false"
+		<p:commandButton value="Logout" icon="ui-icon-power" ajax="false"
+			action="#{userSession.endSession}"
 			style="float:right; height:32px; margin-top:19px;margin-right: 10px;" />
 	</h:form>
 
