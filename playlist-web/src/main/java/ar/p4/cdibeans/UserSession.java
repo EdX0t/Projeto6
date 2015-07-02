@@ -43,7 +43,6 @@ public class UserSession implements Serializable {
 		if (!mail.isEmpty()) {
 			current.setMail(mail);
 			current = userInterface.findByEmail(mail);
-			// current = userInterface.login(current);
 			if (current != null) {
 				isLogged = true;
 				loggedUtil.addUser(current);
