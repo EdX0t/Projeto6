@@ -28,7 +28,9 @@ public class LyricBean implements LyricInterface {
 	@Override
 	public void save(int utiID, int musicID, String lyric) {
 		MusicEntity music=musicDao.find(musicID);
+		System.out.println("Id da Musica"+musicID);
 		UserEntity uti=userDao.find(utiID);
+		System.out.println("Id do user"+utiID);
 		LyricEntity lyricEntity= new LyricEntity(lyric, music, uti);
 		lyricDao.save(lyricEntity);
 		
@@ -54,7 +56,7 @@ public class LyricBean implements LyricInterface {
 
 	
 	@Override
-	public String lyricUserMusic(int utiID, int musicID) {
+	public String lyricUserIDMusic(int utiID, int musicID) {
 		System.out.println("uti "+utiID);
 		MusicEntity music=musicDao.find(musicID);
 		if(music==null)return null;
@@ -73,12 +75,38 @@ public class LyricBean implements LyricInterface {
 	
 	}
 	
+	public String lyricUserMusic(UserEntity uti, int musicID) {
 	
-	@Override
-	public void update(LyricEntity lyric) {
-
-
+		MusicEntity music=musicDao.find(musicID);
+		if(music==null)return null;
+		
+		LyricEntity lyricNull=lyricDao.lyricOfMUsic(null, music);
+		if(lyricNull != null) return lyricNull.getLyric();
+		System.out.println("bean"+lyricNull);
+		
+		String lyric=findSave(musicID, music.getTitulo(),music.getArtista());
+		
+		return lyric;
+	
 	}
+	
+	public void saveOrUpdate (UserEntity uti, int musicID, String lyricEdit){
+		MusicEntity music=musicDao.find(musicID);
+		LyricEntity lyricUser=lyricDao.lyricOfMUsic(uti, music); 
+		
+		if(lyricUser == null){
+			LyricEntity lyricEntity= new LyricEntity(lyricEdit, music, uti);
+			System.out.println("lyricUser está null vai salvar");
+			lyricDao.save(lyricEntity);
+		}else{
+			System.out.println("lyricUser nao está vazio vai update");
+			lyricUser.setLyric(lyricEdit);
+			lyricDao.update(lyricUser);
+		}
+	}
+	
+	
+
 
 	@Override
 	public void delete(LyricEntity lyric) {

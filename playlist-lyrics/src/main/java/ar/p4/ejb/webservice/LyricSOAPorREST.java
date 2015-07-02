@@ -43,7 +43,7 @@ public class LyricSOAPorREST {
 		Apiv1Soap soap = api.getApiv1Soap();
 		ArrayOfSearchLyricResult arrayResult = null;
 		int contador = 0;
-		int maxnum=30;
+		int maxnum=5;
 
 		while(contador<maxnum){
 			try {
@@ -104,7 +104,7 @@ public class LyricSOAPorREST {
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		List <SearchLyricResult> listResult=null;
 		int contador = 0;
-		int maxnum=20;
+		int maxnum=9;
 
 		while(contador<maxnum){
 			try{
@@ -167,7 +167,7 @@ public class LyricSOAPorREST {
 		String lyric="";
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		int contador = 0;
-		int maxnum=10;
+		int maxnum=5;
 
 		while(contador<maxnum){
 			try{
