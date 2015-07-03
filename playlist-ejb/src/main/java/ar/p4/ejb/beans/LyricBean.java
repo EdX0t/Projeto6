@@ -98,14 +98,4 @@ public class LyricBean implements LyricInterface {
 		}
 	}
 	
-
-
-	@Override
-	public void delete(LyricEntity lyric) {
-
-
-	}
-
-
-
 }

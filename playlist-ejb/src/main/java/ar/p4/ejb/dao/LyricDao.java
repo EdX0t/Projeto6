@@ -1,5 +1,7 @@
 package ar.p4.ejb.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -39,6 +41,13 @@ public class LyricDao extends GenericDao<LyricEntity> {
 		} else {
 			return  q.getResultList().get(0);
 		}
+	}
+	
+	public List<LyricEntity> lyricOfUser (UserEntity uti){
+		TypedQuery <LyricEntity> q = em.createNamedQuery(LyricEntity.LYRICS_BY_USER,LyricEntity.class );
+		q.setParameter("utilizador",uti);
+		return q.getResultList();
+		
 	}
 	
 }

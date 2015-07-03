@@ -13,19 +13,24 @@ import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.p4.ejb.dao.LyricDao;
 import ar.p4.ejb.dao.MusicDao;
 import ar.p4.ejb.dao.UserDao;
+import ar.p4.entities.LyricEntity;
 import ar.p4.entities.MusicEntity;
 import ar.p4.entities.UserEntity;
 
 @Stateless
 public class UserBean implements UserInterface {
 	private static final Logger log = LoggerFactory.getLogger(UserBean.class);
-	private static final long serialVersionUID = -4901922974285276339L;
+	
 	@Inject
-	UserDao userDao;
+	private UserDao userDao;
 	@Inject
-	MusicDao musicDao;
+	private MusicDao musicDao;
+	@Inject
+	private LyricDao lyricDao;
+	
 	private ArrayList<UserEntity> utilizadores;
 
 	@Override
@@ -52,7 +57,15 @@ public class UserBean implements UserInterface {
 
 	@Override
 	public void delete(UserEntity user) {
-
+		
+		//lyricas do utilizador
+		List <LyricEntity> listLyric= lyricDao.lyricOfUser(user);
+		log.info("Vai apagar todas as lyricas associadas ao utilizador");
+		for(LyricEntity l: listLyric){
+			log.info("A lyric com o ID "+l.getId()+ " vai ser apagada");
+			lyricDao.delete(l.getId(), LyricEntity.class);
+		}
+		
 		// definir dono das musicas como servidor
 		List<MusicEntity> lista = musicDao.findAllByUser(user);
 		log.info("Vai alterar todas as musicas introduzidas pelo utilizador no campo dono ");

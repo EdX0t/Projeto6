@@ -14,7 +14,7 @@ import ar.p4.entities.UserEntity;
 
 @Stateless
 public class PlaylistDao extends GenericDao<PlaylistEntity> {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PlaylistDao.class);
 
 	public PlaylistDao() {
@@ -69,14 +69,14 @@ public class PlaylistDao extends GenericDao<PlaylistEntity> {
 		q.setParameter("userId", new Integer(user.getId()));
 		return q.getResultList();
 	}
-	
+
 	public boolean checkPlaylist(String nomePlaylist){
 		Query q = em.createQuery("select p.nome from PlaylistEntity p where p.nome= :nomeParam");
 		q.setParameter("nomeParam", nomePlaylist);
 		try {
-		String nomeTemp = (String) q.getSingleResult();
-		log.info("Existe playlist com o nome introduzido");
-		return true;
+			String nomeTemp = (String) q.getSingleResult();
+			log.info("Existe playlist com o nome introduzido -- "+nomeTemp);
+			return true;
 		} catch (NoResultException e){
 			log.error("Não existe playlist com o nome introduzido");
 			return false;

@@ -1,5 +1,7 @@
 package ar.p4.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,13 +20,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Lyrics")
 @NamedQueries({
 @NamedQuery(name = "LyricByUserANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador=:utilizador and l.music=:music"),
-@NamedQuery(name = "LyricByNullANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador is NUll and l.music=:music")
+@NamedQuery(name = "LyricByNullANDMusic", query = "SELECT l FROM LyricEntity l WHERE l.utilizador is NUll and l.music=:music"),
+@NamedQuery(name = "LyricByUser", query = "SELECT l FROM LyricEntity l WHERE l.utilizador=:utilizador")
 })
 @XmlRootElement
-public class LyricEntity {
+public class LyricEntity implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	public static final String LYRICS_BY_USER_MUSIC = "LyricByUserANDMusic";
 	public static final String LYRICS_BY_Null_MUSIC = "LyricByNullANDMusic";
+	public static final String LYRICS_BY_USER = "LyricByUser";
 
 
 	@Id

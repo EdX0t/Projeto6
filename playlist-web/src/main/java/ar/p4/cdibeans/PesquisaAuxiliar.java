@@ -44,18 +44,11 @@ public class PesquisaAuxiliar implements Serializable {
 	private List<String> listaTitulosPorArtista;
 	private List<String> listanomesPlaylists;
 	private List<PlaylistEntity> listaPlayLists;
-
 	private MusicEntity musicaSeleccionada;
-
 	private List<MusicEntity> todasMusicas;
-
-	public List<MusicEntity> getTodasMusicas() {
-		return musicaCDIBean.getTodasMusicas();
-	}
-
 	private String artistaSeleccionado;
 	private String playListSeleccionada;
-	private String musicaSeleccionadaPorArtista;
+	//private String musicaSeleccionadaPorArtista;
 	private String tituloSeleccionadoPorArtista;
 	private MusicEntity musicaArtistaTitulo;
 
@@ -267,6 +260,10 @@ public class PesquisaAuxiliar implements Serializable {
 
 	public void setListaPesquisa(List<MusicEntity> listaPesquisa) {
 		this.listaPesquisa = listaPesquisa;
+	}
+	
+	public List<MusicEntity> getTodasMusicas() {
+		return musicaCDIBean.getTodasMusicas();
 	}
 
 }
