@@ -35,7 +35,7 @@ public class MusicBean implements MusicInterface{
 	@Override
 	public void delete(MusicEntity musicEntity) {
 		musicEntity.setDono(null);
-		log.info("Colocou p dono da música a nulo e vai eliminar a música dos registos do utilizador");
+		log.info("Colocou o dono da música a nulo e vai eliminar a música dos registos do utilizador");
 		musicDao.update(musicEntity);
 	}
 

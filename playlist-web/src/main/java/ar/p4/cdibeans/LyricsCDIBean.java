@@ -1,109 +1,109 @@
 package ar.p4.cdibeans;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+
 import ar.p4.ejb.beans.LyricInterface;
-import ar.p4.entities.LyricEntity;
+import ar.p4.entities.MusicEntity;
 
 @Named
-@RequestScoped
-public class LyricsCDIBean {
+@SessionScoped
+public class LyricsCDIBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@EJB
 	private LyricInterface lyricBean;
 	@Inject
 	private UserSession user;
 	private int musicId;
+	private MusicEntity music;
 	private String lyric;
-	private boolean editar=false;
-	//private LyricEntity lyricOriginal;
-	
-	
-	
+	private boolean editing = false;
+
 
 	public LyricsCDIBean() {
-		
-	
+
 	}
-	
+
+	public void newSearchOfMusic(){
+		String lyricSearch=lyricBean.lyricUserMusic(null, music.getId() );
+		FacesMessage msg;
+		if(lyricSearch == null || lyricSearch.equalsIgnoreCase("Lyric of Music not found!!")){
+			msg= new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"Lyric of Music not found!!", null);
+		}else{
+			msg = new FacesMessage(
+					FacesMessage.SEVERITY_INFO,
+					"Lyric original!", null);
+		}
+		this.lyric=lyricSearch;
+		RequestContext.getCurrentInstance().update(
+				Arrays.asList("frm:lyricMusic"));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		editing = true;
+	}
 
 	public String viewLyric(){
-		System.out.println("entrou na função viewLyric--" + this.musicId);
-		this.lyric=lyricBean.lyricUserMusic(user.getCurrent().getId(), this.musicId);
-		
+		if(catchMusic()=="Musica Selecionada" && !editing){
+			this.lyric=lyricBean.lyricUserIDMusic(user.getCurrent().getId(), music.getId());
+		}
 		if(this.lyric == null){
 			this.lyric="Lyric of Music not found!!";
 		}
+		editing = false;
 		return this.lyric;
 	}
 
-
-	
-	
-	public void coisas() {
-		System.out.println("asfdj + coisas");
+	public void editLyric(){
+		lyricBean.saveOrUpdate(user.getCurrent(), music.getId(), lyric);
+		RequestContext.getCurrentInstance().update(
+				Arrays.asList("frm:musiclyric"));
+		FacesMessage msg = new FacesMessage(
+				FacesMessage.SEVERITY_INFO,
+				"Lyric edited successfully!", null);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 	public int getMusicId() {
 		return musicId;
 	}
 
-
-
-
-
 	public void setMusicId(int musicId) {
 		this.musicId = musicId;
 	}
-
-
-
-
 
 	public String getLyric() {
 		return viewLyric();
 	}
 
-
-
-
-
 	public void setLyric(String lyric) {
 		this.lyric = lyric;
 	}
 
-
-
-
-
-	public boolean isEditar() {
-		return editar;
+	public String catchMusic() {
+		if (this.music == null) return "Musica não selecionada";
+		return "Musica Selecionada";
 	}
 
+	public MusicEntity getMusic(){
+		return music;
 
-
-
-
-	public void setEditar(boolean editar) {
-		this.editar = editar;
 	}
 
-
-
+	public void setMusic(MusicEntity music) {
+		this.music = music;
+	}
 
 
 

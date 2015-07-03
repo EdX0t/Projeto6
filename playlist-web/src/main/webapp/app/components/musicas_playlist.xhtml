@@ -35,12 +35,12 @@
 				<p:column headerText="Release Date" width="15%">
 					<h:outputText value="#{musica.anoLancamento}" />
 				</p:column>
-				<p:column headerText="Lyrics" width="25">
+				<p:column headerText="Lyrics" width="10%">
 					<p:commandButton icon="ui-icon-note" type="submit"
 						oncomplete="PF('dlg2').show();" update="music-form"
 						process="@this">
-						<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
-							value="#{musica.id}" />
+						<f:setPropertyActionListener target="#{lyricsCDIBean.music}"
+							value="#{musica}" />
 					</p:commandButton>
 				</p:column>
 				<p:column headerText="Remove" width="8%">
@@ -54,10 +54,29 @@
 			</p:dataTable>
 			<!-- Formulario Lyric  -->
 			<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
-				minimizable="true" maximizable="true">
-				<p:inputTextarea value="#{lyricsCDIBean.lyric}"/>
+				resizable="false" maximizable="true" showEffect="explode"
+				hideEffect="explode" closeOnEscape="true">
+
+				<h:outputText value="#{lyricsCDIBean.music.titulo}"
+					styleClass="tituloSongLyric" />
+				<br />
+				<p:inputTextarea id="lyricMusic" value="#{lyricsCDIBean.lyric}"
+					style="width:300px; height:300px; white-space: pre-wrap;"
+					autoResize="false" />
+				<br />
+
+				<p:commandButton title="Save lyric" icon="ui-icon-disk"
+					action="#{lyricsCDIBean.editLyric()}"
+					update=":music-form:lyricMusic">
+				</p:commandButton>
+				<p:commandButton title="New search of lyric" icon="ui-icon-search"
+					actionListener="#{lyricsCDIBean.newSearchOfMusic()}"
+					update=":music-form:lyricMusic">
+				</p:commandButton>
+
+
 			</p:dialog>
-			
+			<!-- Formulario remove music  -->
 			<p:confirmDialog header="Removal confirmation" showEffect="explode"
 				hideEffect="explode" message="Remove music from playlist?"
 				widgetVar="remover-da-playlist" id="dialog-removeMusica">
