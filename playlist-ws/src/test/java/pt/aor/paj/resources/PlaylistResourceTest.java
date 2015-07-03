@@ -12,8 +12,10 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
 
+
 public class PlaylistResourceTest {
 	private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/rest/playlists").build();
+	
 	
 	@Test
 	public void getPlaylistNumber() {
@@ -31,20 +33,20 @@ public class PlaylistResourceTest {
 	client.close();
 	}
 
-	@Test
+	/*@Test
 	public void getSongsInPlaylist() {
 		Client client = ClientBuilder.newClient();
 		Response response = client.target(uri+"/26/songs").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
-	}
+	}*/
 	
-	@Test
+/*	@Test
 	public void getUserPlaylistsNotFound() {
 		Client client = ClientBuilder.newClient();
 		Response response = client.target(uri+"266/songs").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.NOT_FOUND, response.getStatusInfo());
 		client.close();
 	}
-	
+	*/
 }

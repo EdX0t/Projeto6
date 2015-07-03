@@ -35,13 +35,15 @@ public class MusicResourceTest {
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
 	}
-	@Test
+	
+/*	@Test
 	public void getSong() throws JAXBException{
 		Client client = ClientBuilder.newClient();
 		Response response = client.target(uri+"/23").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
-	}
+	}*/
+	
 	@Test
 	public void getSongFail() throws JAXBException{
 		Client client = ClientBuilder.newClient();

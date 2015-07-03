@@ -60,6 +60,28 @@ public class MusicEntity implements Serializable {
 	@ManyToMany(mappedBy = "musicEntities")
 	private List<PlaylistEntity> playlistEntities;
 	
+	
+
+	
+	public MusicEntity() {
+		super();
+	}
+	
+	
+
+	public MusicEntity(String titulo, String artista, String album,
+			Date anoLancamento, String filePath, UserEntity dono,
+			List<PlaylistEntity> playlistEntities) {
+		super();
+		this.titulo = titulo;
+		this.artista = artista;
+		this.album = album;
+		this.anoLancamento = anoLancamento;
+		
+	}
+
+
+
 	public UserEntity getDono() {
 		return dono;
 	}
@@ -86,10 +108,6 @@ public class MusicEntity implements Serializable {
 	public void setId(int id) {
 
 		this.id = id;
-	}
-
-	public MusicEntity() {
-		
 	}
 
 	public String getTitulo() {
