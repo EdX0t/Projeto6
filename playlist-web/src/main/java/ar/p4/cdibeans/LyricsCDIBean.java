@@ -27,15 +27,11 @@ public class LyricsCDIBean implements Serializable {
 	private UserSession user;
 	private int musicId;
 	private MusicEntity music;
-
 	private String lyric;
-	//private LyricEntity lyricOriginal;
 	private boolean editing = false;
 
 
-
 	public LyricsCDIBean() {
-
 
 	}
 
@@ -47,19 +43,19 @@ public class LyricsCDIBean implements Serializable {
 		System.out.println("lirica do user---"+lyric);
 		FacesMessage msg;
 
-		if(lyricSearch == null){
+		if(lyricSearch == null || lyricSearch.equalsIgnoreCase("Lyric of Music not found!!")){
 			msg= new FacesMessage(
 					FacesMessage.SEVERITY_ERROR,
 					"Lyric of Music not found!!", null);
-		} 
+		}else{
+			System.out.println("lyric original-----"+ lyric);
+			msg = new FacesMessage(
+					FacesMessage.SEVERITY_INFO,
+					"Lyric original!", null);
+		}
 		this.lyric=lyricSearch;
-		System.out.println("lyric original-----"+ lyric);
-		msg = new FacesMessage(
-				FacesMessage.SEVERITY_INFO,
-				"Lyric original!", null);
 		RequestContext.getCurrentInstance().update(
 				Arrays.asList("frm:lyricMusic"));
-
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		System.out.println("lyric apos mensagem "+ lyric);
 		editing = true;
@@ -77,6 +73,7 @@ public class LyricsCDIBean implements Serializable {
 			this.lyric="Lyric of Music not found!!";
 		}
 		editing = false;
+
 		return this.lyric;
 	}
 
@@ -129,7 +126,7 @@ public class LyricsCDIBean implements Serializable {
 	}
 
 
-	
+
 	public String catchMusic() {
 		if (this.music == null) return "Musica não selecionada";
 		return "Musica Selecionada";

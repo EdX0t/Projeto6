@@ -12,17 +12,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement(name = "ArrayOfSearchLyricResult", namespace="http://api.chartlyrics.com/")
-public class ArrayOfSearchLyricResult {
+public class ArrayOfSearchLyricResult1 {
 
     @XmlElement(name = "SearchLyricResult")
-    protected List<SearchLyricResult> searchLyricResult;
+    protected List<SearchLyricResult1> searchLyricResult1;
 
    
-    public List<SearchLyricResult> getSearchLyricResult() {
-        if (searchLyricResult == null) {
-            searchLyricResult = new ArrayList<SearchLyricResult>();
+    public List<SearchLyricResult1> getSearchLyricResult() {
+        if (searchLyricResult1 == null) {
+            searchLyricResult1 = new ArrayList<SearchLyricResult1>();
         }
-        return this.searchLyricResult;
+        return this.searchLyricResult1;
     }
 
 }

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement(name = "SearchLyricResult", namespace="http://api.chartlyrics.com/")
-public class SearchLyricResult {
+public class SearchLyricResult1 {
 
     @XmlElement(name = "LyricChecksum")
     protected String searchChecksum;

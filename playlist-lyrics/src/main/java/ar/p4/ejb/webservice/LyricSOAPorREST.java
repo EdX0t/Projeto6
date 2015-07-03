@@ -10,6 +10,9 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ar.p4.ejb.webserviceRest.ArrayOfSearchLyricResult1;
+import ar.p4.ejb.webserviceRest.GetLyricResult1;
+import ar.p4.ejb.webserviceRest.SearchLyricResult1;
 import ar.p4.ejb.webserviceRestWikia.LyricsResult;
 
 import com.chartlyrics.api.SOAP.Apiv1;
@@ -24,9 +27,14 @@ public class LyricSOAPorREST {
 
 	public  String lyricOfMusic(String artist, String song){
 		String lyric;
-		lyric=lyricSOAP(artist,song);
-		if(lyric!=null)return lyric;
-
+		try {
+			lyric=lyricSOAP(artist,song);
+			if(lyric!=null)return lyric;
+		}
+		catch(Exception e) {
+			System.out.println("soap error ");
+		}
+		
 		lyric=lyricRESTApi (artist,song);
 		if(lyric!=null) return lyric;
 
@@ -43,7 +51,7 @@ public class LyricSOAPorREST {
 		Apiv1Soap soap = api.getApiv1Soap();
 		ArrayOfSearchLyricResult arrayResult = null;
 		int contador = 0;
-		int maxnum=5;
+		int maxnum=2;
 
 		while(contador<maxnum){
 			try {
@@ -82,7 +90,12 @@ public class LyricSOAPorREST {
 		while(contador<maxnum){
 			try{
 				GetLyricResult result = soap.getLyric(idLyric, lyricCheckSum);
-				return result.getLyric();
+				
+				if(result.getLyric().equalsIgnoreCase("")){
+					return null;
+				} else{
+					return result.getLyric();
+				}
 			} catch (Exception e){
 				System.out.println("não fizeste nada!!!");
 				try {
@@ -102,15 +115,15 @@ public class LyricSOAPorREST {
 		int idLyric=-1;
 		String lyricCheckSum="";
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
-		List <SearchLyricResult> listResult=null;
+		List <SearchLyricResult1> listResult=null;
 		int contador = 0;
-		int maxnum=9;
+		int maxnum=3;
 
 		while(contador<maxnum){
 			try{
 				ResteasyWebTarget target=cliente.target("http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+artist+"&song="+song);
 				Response response= target.request(MediaType.APPLICATION_XML).get();
-				listResult= response.readEntity(ArrayOfSearchLyricResult.class).getSearchLyricResult();
+				listResult= response.readEntity(ArrayOfSearchLyricResult1.class).getSearchLyricResult();
 				if(listResult.get(0).getArtist()==null && listResult.get(0).getSong()==null) {
 					return null;
 				}
@@ -127,8 +140,12 @@ public class LyricSOAPorREST {
 			}
 			contador++;
 		}
+		
+		if (contador==maxnum){
+			return null;
+		}
 
-		for(SearchLyricResult result:listResult ){
+		for(SearchLyricResult1 result:listResult ){
 			if(result.getSong().equalsIgnoreCase(song)){
 				idLyric=result.getLyricId();
 				lyricCheckSum=result.getLyricChecksum();
@@ -145,8 +162,12 @@ public class LyricSOAPorREST {
 			try{
 				ResteasyWebTarget target1=cliente.target("http://api.chartlyrics.com/apiv1.asmx/GetLyric?lyricId="+idLyric+"&lyricCheckSum="+lyricCheckSum);
 				Response response1= target1.request(MediaType.APPLICATION_XML).get();
-				lyric= response1.readEntity(GetLyricResult.class).getLyric();
-				return lyric;
+				lyric= response1.readEntity(GetLyricResult1.class).getLyric();
+				if(lyric.equalsIgnoreCase("")){
+					return null;
+				} else{
+					return lyric;
+				}
 			} catch(Exception e){
 				//e.printStackTrace();
 				System.out.println(3);
@@ -167,18 +188,24 @@ public class LyricSOAPorREST {
 		String lyric="";
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		int contador = 0;
-		int maxnum=5;
+		int maxnum=2;
 
 		while(contador<maxnum){
 			try{
 				ResteasyWebTarget target=cliente.target("http://lyrics.wikia.com/api.php?artist="+artist+"&song="+song+"&fmt=xml");
 				Response response= target.request(MediaType.APPLICATION_XML).get();
 				lyric= response.readEntity(LyricsResult.class).getLyric();
-				return lyric;
+				
+				if(lyric.equalsIgnoreCase("[...]") || lyric.equalsIgnoreCase("Not found")){
+					return null;
+				} else{
+					return lyric;
+				}
+				
 
 			}catch (Exception e){
 				//e.printStackTrace();
-				System.out.println(e.getMessage());
+				System.out.println(4);
 			}
 			contador++;	
 		}

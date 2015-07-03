@@ -60,8 +60,7 @@
 			var="musica" scrollable="true" scrollHeight="400" rows="20"
 			scrollRows="20" height="400"
 			selection="#{pesquisaAuxiliar.musicaSeleccionada}"
-			selectionMode="single" rowKey="#{musica.id}"
-			styleClass="borderless">
+			selectionMode="single" rowKey="#{musica.id}" styleClass="borderless">
 			<p:ajax event="rowSelect" listener="#{pesquisaAuxiliar.onRowSelect}"
 				update=":right-bar" />
 			<p:column headerText="Title" width="25">
@@ -82,8 +81,8 @@
 			<p:column headerText="Lyrics" width="25">
 				<p:commandButton icon="ui-icon-note" type="submit"
 					oncomplete="PF('dlg2').show();" update="form-search" process="@this">
-					<f:setPropertyActionListener target="#{lyricsCDIBean.musicId}"
-						value="#{musica.id}" />
+					<f:setPropertyActionListener target="#{lyricsCDIBean.music}"
+						value="#{musica}" />
 				</p:commandButton>
 			</p:column>
 			<p:column headerText="Play" width="10">
@@ -97,8 +96,26 @@
 		</p:dataTable>
 		<!-- Formulario Lyric  -->
 		<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
-			minimizable="true" maximizable="true">
-			<p:inputTextarea value="#{lyricsCDIBean.lyric}" />
+			resizable="false" maximizable="true" showEffect="explode"
+			hideEffect="explode" closeOnEscape="true">
+
+			<h:outputText value="#{lyricsCDIBean.music.titulo}"
+				styleClass="tituloSongLyric" />
+			<br />
+			<p:inputTextarea id="lyricMusic" value="#{lyricsCDIBean.lyric}"
+				style="width:300px; height:300px; white-space: pre-wrap;"
+				autoResize="false" />
+			<br />
+
+			<p:commandButton title="Save lyric" icon="ui-icon-disk"
+				action="#{lyricsCDIBean.editLyric()}" update=":form-search:lyricMusic">
+			</p:commandButton>
+			<p:commandButton title="New search of lyric" icon="ui-icon-search"
+				actionListener="#{lyricsCDIBean.newSearchOfMusic()}"
+				update=":form-search:lyricMusic">
+			</p:commandButton>
+
+
 		</p:dialog>
 	</h:form>
 </ui:composition>
