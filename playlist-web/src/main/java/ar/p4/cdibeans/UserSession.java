@@ -39,6 +39,9 @@ public class UserSession implements Serializable {
 	}
 
 	public void init() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) context
+				.getExternalContext().getRequest();
 		String mail = securityBean.getPrincipalName();
 		if (!mail.isEmpty()) {
 			current.setMail(mail);
@@ -46,6 +49,7 @@ public class UserSession implements Serializable {
 			if (current != null) {
 				isLogged = true;
 				loggedUtil.addUser(current);
+				request.getSession().setAttribute("user", current);
 			} else {
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO,
@@ -88,8 +92,8 @@ public class UserSession implements Serializable {
 
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Could not delete user account",
-					"");
+					FacesMessage.SEVERITY_ERROR,
+					"Could not delete user account", "");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		return null;
@@ -107,8 +111,7 @@ public class UserSession implements Serializable {
 			request.getSession().invalidate();
 		} catch (ServletException e) {
 			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Logout Failed",
-					"");
+					FacesMessage.SEVERITY_ERROR, "Logout Failed", "");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		return "/app/main.xhtml?faces-redirect=true";
