@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ar.p4.ejb.webserviceRest.ArrayOfSearchLyricResult1;
 import ar.p4.ejb.webserviceRest.GetLyricResult1;
@@ -24,6 +26,8 @@ import com.chartlyrics.api.SOAP.SearchLyricResult;
 
 @Stateless
 public class LyricSOAPorREST {
+	
+	private static final Logger log = LoggerFactory.getLogger(LyricSOAPorREST.class);
 
 	public  String lyricOfMusic(String artist, String song){
 		String lyric;
@@ -32,7 +36,7 @@ public class LyricSOAPorREST {
 			if(lyric!=null)return lyric;
 		}
 		catch(Exception e) {
-			System.out.println("soap error ");
+			log.error("Erro no resultado do SOAP---"+e.getMessage());
 		}
 		
 		lyric=lyricRESTApi (artist,song);
@@ -61,13 +65,12 @@ public class LyricSOAPorREST {
 				}
 				break;
 			} catch (Exception e) {
-				//				e.printStackTrace();
-				System.out.println("Connecting...");
+				log.error("Erro na conexão no searchLyric do SOAP---"+e.getMessage());
+				
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					//e1.printStackTrace();
+					log.error("Erro na primeira thread do SOAP---"+e1.getMessage());
 				}
 			}
 			contador++;
@@ -97,12 +100,11 @@ public class LyricSOAPorREST {
 					return result.getLyric();
 				}
 			} catch (Exception e){
-				System.out.println("não fizeste nada!!!");
+				log.error("Erro na conexão do getLyric no SOAP---"+e.getMessage());
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					//e1.printStackTrace();
+					log.error("Erro na segunda thread do SOAP---"+e2.getMessage());
 				}
 			}
 			contador++;
@@ -129,13 +131,11 @@ public class LyricSOAPorREST {
 				}
 				break;
 			} catch(Exception e){
-				//System.out.println("mensagem" + e.getMessage());
-				System.out.println(1);
+				log.error("Erro na conexão com RestApi - SearchLyric: "+e.getMessage());
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					//e1.printStackTrace();
+					log.error("Erro no primeiro thread do RestAPi---"+e1.getMessage());
 				}
 			}
 			contador++;
@@ -169,13 +169,11 @@ public class LyricSOAPorREST {
 					return lyric;
 				}
 			} catch(Exception e){
-				//e.printStackTrace();
-				System.out.println(3);
+				log.error("Erro na conexão com RestApi - GetLyric: "+e.getMessage());
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					//e1.printStackTrace();
+					log.error("Erro no segundo thread do RestAPi---"+e2.getMessage());
 				}
 			}
 			contador++;
@@ -204,8 +202,7 @@ public class LyricSOAPorREST {
 				
 
 			}catch (Exception e){
-				//e.printStackTrace();
-				System.out.println(4);
+				log.error("Erro na conexão com Restwiki: "+e.getMessage());
 			}
 			contador++;	
 		}

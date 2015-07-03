@@ -82,12 +82,8 @@ public class MusicaCDIBean implements Serializable {
 						FacesMessage.SEVERITY_INFO, "Music added successfully",
 						"");
 				FacesContext.getCurrentInstance().addMessage(null, message);
-
 				//adicionar liricas se fizer upload
-				
 				lyricBean.findSave( musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );
-
-
 
 			} catch (Exception e) {
 				FacesMessage msg = new FacesMessage(
