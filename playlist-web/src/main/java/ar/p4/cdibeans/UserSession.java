@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import ar.p4.ejb.beans.UserInterface;
 import ar.p4.ejb.util.LoggedUserUtil;
@@ -39,6 +40,9 @@ public class UserSession implements Serializable {
 	}
 
 	public void init() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) context
+				.getExternalContext().getRequest();
 		String mail = securityBean.getPrincipalName();
 		if (!mail.isEmpty()) {
 			current.setMail(mail);
@@ -46,6 +50,7 @@ public class UserSession implements Serializable {
 			if (current != null) {
 				isLogged = true;
 				loggedUtil.addUser(current);
+				request.getSession().setAttribute("user", current);
 			} else {
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO,
@@ -102,7 +107,6 @@ public class UserSession implements Serializable {
 
 		try {
 			isLogged = false;
-			loggedUtil.removeUser(current);
 			request.logout();
 			request.getSession().invalidate();
 		} catch (ServletException e) {

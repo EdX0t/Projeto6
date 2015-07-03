@@ -17,8 +17,11 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>1</session-timeout>
 	</session-config>
+	 <listener>
+    <listener-class>ar.p4.util.SessionHelper</listener-class>
+  </listener>
 
 	<!-- security constraints -->
 	<security-constraint>
