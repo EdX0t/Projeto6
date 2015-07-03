@@ -11,6 +11,8 @@
 <!-- Body -->
 <h:body styleClass="indexbck">
 	<h1 style="margin:15px; font-size: 34px;">Login Failed</h1>
-	<a href="login.xhtml"><h3 style="margin:15px; font-size:24px;">Click here to try again</h3></a>
+	<h:form>
+	<h:commandLink action="login?faces-redirect=true" value="Click here to try again" style="margin:15px; font-size:24px;" />
+	</h:form>
 </h:body>
 </html>

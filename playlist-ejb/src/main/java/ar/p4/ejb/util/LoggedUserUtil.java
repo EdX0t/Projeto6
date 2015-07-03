@@ -31,9 +31,7 @@ public class LoggedUserUtil {
 		this.loggedUsersList = loggedUsersList;
 	}
 	public void addUser(UserEntity user){
-		if(!loggedUsersList.contains(user)){
 			loggedUsersList.add(user);
-		}
 	}
 	public void removeUser(UserEntity user){
 		if(loggedUsersList.contains(user)){

@@ -17,32 +17,33 @@
 
 			<p:ajax event="rowSelect" listener="#{pesquisaAuxiliar.onRowSelect}"
 				update=":right-panel :right-bar" />
-
-
-			<p:column headerText="Title" sortdBy="titulo" width="25">
-				<h:outputText value="#{musica.titulo}" />
-			</p:column>
-			<p:column headerText="Artist" width="25">
-				<h:outputText value="#{musica.artista}" />
-			</p:column>
-			<p:column headerText="Album" width="25">
-				<h:outputText value="#{musica.album}" />
-			</p:column>
-			<p:column headerText="Release Date" width="15">
-				<h:outputText value="#{musica.anoLancamento}" />
-			</p:column>
-			<p:column headerText="Lyrics" width="25">
-				<p:commandButton icon="ui-icon-note" type="submit"
-					oncomplete="PF('dlg2').show();" update="form-todas-musicas" process="@this">
-					<f:setPropertyActionListener target="#{lyricsCDIBean.music}"
-						value="#{musica}" />
-				</p:commandButton>
-			</p:column>
-			<p:column headerText="Play" width="10">
+				
+			<p:column headerText="Play" width="8%">
 				<p:commandButton icon="ui-icon-triangle-1-e" title="Play music"
 					action="#{playlistCDIBean.play}" update=":play-form"
 					process="@this">
 					<f:setPropertyActionListener target="#{playlistCDIBean.musicaPlay}"
+						value="#{musica}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column headerText="Title" sortdBy="titulo" width="24%">
+				<h:outputText value="#{musica.titulo}" />
+			</p:column>
+			<p:column headerText="Artist" width="20%">
+				<h:outputText value="#{musica.artista}" />
+			</p:column>
+			<p:column headerText="Album" width="20%">
+				<h:outputText value="#{musica.album}" />
+			</p:column>
+			<p:column headerText="Release Date" width="20%">
+				<h:outputText value="#{musica.anoLancamento}" />
+			</p:column>
+			<p:column headerText="Lyrics" width="8%">
+				<p:commandButton icon="ui-icon-note" type="submit"
+					oncomplete="PF('dlg2').show();" update="form-todas-musicas"
+					process="@this">
+					<f:setPropertyActionListener target="#{lyricsCDIBean.music}"
 						value="#{musica}" />
 				</p:commandButton>
 			</p:column>
@@ -61,7 +62,8 @@
 			<br />
 
 			<p:commandButton title="Save lyric" icon="ui-icon-disk"
-				action="#{lyricsCDIBean.editLyric()}" update=":form-todas-musicas:lyricMusic">
+				action="#{lyricsCDIBean.editLyric()}"
+				update=":form-todas-musicas:lyricMusic">
 			</p:commandButton>
 			<p:commandButton title="New search of lyric" icon="ui-icon-search"
 				actionListener="#{lyricsCDIBean.newSearchOfMusic()}"

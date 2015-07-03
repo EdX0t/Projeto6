@@ -1,5 +1,6 @@
 package ar.p4.cdibeans;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import ar.p4.ejb.beans.UserInterface;
 import ar.p4.ejb.util.LoggedUserUtil;
@@ -42,8 +44,8 @@ public class UserSession implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) context
 				.getExternalContext().getRequest();
-		String mail = securityBean.getPrincipalName();
-		if (!mail.isEmpty()) {
+			String mail = securityBean.getPrincipalName();
+			System.out.println("Mail: "+mail);
 			current.setMail(mail);
 			current = userInterface.findByEmail(mail);
 			if (current != null) {
@@ -51,12 +53,13 @@ public class UserSession implements Serializable {
 				loggedUtil.addUser(current);
 				request.getSession().setAttribute("user", current);
 			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO,
-						"This mail is not registered.", "");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				request.getSession().invalidate();
+				try {
+					FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 	}
 
 	// editar informacao
@@ -106,7 +109,6 @@ public class UserSession implements Serializable {
 
 		try {
 			isLogged = false;
-			loggedUtil.removeUser(current);
 			request.logout();
 			request.getSession().invalidate();
 		} catch (ServletException e) {
