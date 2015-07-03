@@ -1,29 +1,21 @@
 package ar.p4.ejb.dao;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import org.junit.Assert;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import ar.p4.entities.MusicEntity;
 import ar.p4.entities.UserEntity;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.anyString;
-import static org.hamcrest.Matchers.nullValue;
 
 
 

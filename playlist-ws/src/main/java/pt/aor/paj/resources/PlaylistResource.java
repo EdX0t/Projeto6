@@ -33,7 +33,7 @@ public class PlaylistResource {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/total")
-	public Total getMessage() {
+	public Total getPlaylistNumber() {
 		log.info("Getting the number of playlists in database.");
 		Total totalPlaylists = new Total();
 		totalPlaylists.setTotal(converterCdiBean.getAllPlaylists()
@@ -55,7 +55,7 @@ public class PlaylistResource {
 	@GET
 	@Path("/{playlistId}/songs")
 	@Produces(MediaType.APPLICATION_XML)
-	public Songs getUserPlaylists(@PathParam("playlistId") int id) {
+	public Songs getSongsInPlaylist(@PathParam("playlistId") int id) {
 		log.info("Getting the songs in playlist with id: "+id);
 		PlaylistEntity temp = new PlaylistEntity();
 		temp.setId(id);
