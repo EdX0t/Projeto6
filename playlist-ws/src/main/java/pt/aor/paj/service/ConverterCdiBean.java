@@ -92,13 +92,13 @@ public class ConverterCdiBean {
 		}
 	}
 	
-	public void checkPlaylist(PlaylistEntity user){
-		if(playlistInterface.getPlaylistById(user.getId()) == null){
+	public void checkPlaylist(PlaylistEntity playlist){
+		if(playlistInterface.getPlaylistById(playlist.getId()) == null){
 			throw new NotFoundException();
 		}
 	}
-	public void checkMusic(MusicEntity user){
-		if(musicInterface.find(user.getId()) == null){
+	public void checkMusic(MusicEntity music){
+		if(musicInterface.find(music.getId()) == null){
 			throw new NotFoundException();
 		}
 	}

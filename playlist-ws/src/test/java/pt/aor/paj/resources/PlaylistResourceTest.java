@@ -12,7 +12,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
 
-
 public class PlaylistResourceTest {
 	private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/rest/playlists").build();
 	

@@ -1,6 +1,6 @@
 package pt.aor.paj.resources;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
 
@@ -12,10 +12,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MusicResourceTest {
 
 	private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/rest/songs").build();

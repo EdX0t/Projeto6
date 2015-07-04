@@ -22,6 +22,7 @@ import ar.p4.entities.UserEntity;
 
 @Stateless
 public class UserBean implements UserInterface {
+	
 	private static final Logger log = LoggerFactory.getLogger(UserBean.class);
 	
 	@Inject

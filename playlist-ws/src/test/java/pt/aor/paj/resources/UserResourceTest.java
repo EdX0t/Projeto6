@@ -74,7 +74,7 @@ private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/r
 	@Test
 	public void getUserPlaylistsFail() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"999/playlists").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"999565/playlists").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.NOT_FOUND, response.getStatusInfo());
 		client.close();
 	}
