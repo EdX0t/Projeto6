@@ -31,45 +31,45 @@ private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/r
 	client.close();
 	}
 
-	/*@Test
+	@Test
 	public void getUserInfo() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"4").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"999").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
-	}*/
+	}
 	
 	@Test
 	public void getUserInfoFail() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"999").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"0").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.NOT_FOUND, response.getStatusInfo());
 		client.close();
 	}
 	
-/*	@Test
+	@Test
 	public void getUserMusic() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"4/songs").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"999/songs").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
-	}*/
+	}
 	
 	@Test
 	public void getUserMusicFail() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"999/songs").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"989898/songs").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.NOT_FOUND, response.getStatusInfo());
 		client.close();
 	}
 	
-/*	@Test
+	@Test
 	public void getUserPlaylists() {
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(uri+"4/playlists").request(MediaType.APPLICATION_XML).get();
+		Response response = client.target(uri+"999/playlists").request(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		client.close();
-	}*/
+	}
 	
 	@Test
 	public void getUserPlaylistsFail() {
