@@ -72,7 +72,7 @@ private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/r
 		client.close();
 	}
 	
-	@Ignore
+	
 	@Test
 	public void getUserPlaylistsFail() {
 		Client client = ClientBuilder.newClient();
