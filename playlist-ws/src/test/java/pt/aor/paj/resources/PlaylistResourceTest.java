@@ -16,7 +16,7 @@ public class PlaylistResourceTest {
 	private static URI uri = UriBuilder.fromUri("http://localhost:8080/playlist-ws/rest/playlists").build();
 	
 	
-	@Test
+	/*@Test
 	public void getPlaylistNumber() {
 		Client client = ClientBuilder.newClient();
 		Response response = client.target(uri+"/total").request(MediaType.APPLICATION_XML).get();
@@ -30,7 +30,7 @@ public class PlaylistResourceTest {
 	Response response = client.target(uri).request(MediaType.APPLICATION_XML).get();
 	assertEquals(Response.Status.OK, response.getStatusInfo());
 	client.close();
-	}
+	}*/
 
 	@Test
 	public void getSongsInPlaylist() {

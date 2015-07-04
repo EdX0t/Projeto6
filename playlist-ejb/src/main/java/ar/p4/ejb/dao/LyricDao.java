@@ -15,9 +15,9 @@ import ar.p4.entities.UserEntity;
 
 @Stateless
 public class LyricDao extends GenericDao<LyricEntity> {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(LyricDao.class);
-	
+
 	public LyricDao() {
 		super(LyricEntity.class);
 	}
@@ -42,12 +42,15 @@ public class LyricDao extends GenericDao<LyricEntity> {
 			return  q.getResultList().get(0);
 		}
 	}
-	
+
 	public List<LyricEntity> lyricOfUser (UserEntity uti){
 		TypedQuery <LyricEntity> q = em.createNamedQuery(LyricEntity.LYRICS_BY_USER,LyricEntity.class );
 		q.setParameter("utilizador",uti);
 		return q.getResultList();
-		
+
 	}
+
+
 	
+
 }

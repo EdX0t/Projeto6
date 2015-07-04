@@ -67,11 +67,6 @@ public class LyricSOAPorREST {
 			} catch (Exception e) {
 				log.error("Erro na conexão no searchLyric do SOAP---"+e.getMessage());
 				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					log.error("Erro na primeira thread do SOAP---"+e1.getMessage());
-				}
 			}
 			contador++;
 		}
@@ -101,11 +96,7 @@ public class LyricSOAPorREST {
 				}
 			} catch (Exception e){
 				log.error("Erro na conexão do getLyric no SOAP---"+e.getMessage());
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e2) {
-					log.error("Erro na segunda thread do SOAP---"+e2.getMessage());
-				}
+			
 			}
 			contador++;
 		}
@@ -119,7 +110,7 @@ public class LyricSOAPorREST {
 		ResteasyClient cliente= new ResteasyClientBuilder().build();
 		List <SearchLyricResult1> listResult=null;
 		int contador = 0;
-		int maxnum=3;
+		int maxnum=4;
 
 		while(contador<maxnum){
 			try{
@@ -132,11 +123,7 @@ public class LyricSOAPorREST {
 				break;
 			} catch(Exception e){
 				log.error("Erro na conexão com RestApi - SearchLyric: "+e.getMessage());
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					log.error("Erro no primeiro thread do RestAPi---"+e1.getMessage());
-				}
+				
 			}
 			contador++;
 		}
@@ -170,11 +157,7 @@ public class LyricSOAPorREST {
 				}
 			} catch(Exception e){
 				log.error("Erro na conexão com RestApi - GetLyric: "+e.getMessage());
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e2) {
-					log.error("Erro no segundo thread do RestAPi---"+e2.getMessage());
-				}
+				
 			}
 			contador++;
 		}
@@ -194,7 +177,7 @@ public class LyricSOAPorREST {
 				Response response= target.request(MediaType.APPLICATION_XML).get();
 				lyric= response.readEntity(LyricsResult.class).getLyric();
 				
-				if(lyric.equalsIgnoreCase("[...]") || lyric.equalsIgnoreCase("Not found")){
+				if(lyric.equalsIgnoreCase("[...]") || lyric.equalsIgnoreCase("Not found") || lyric.equalsIgnoreCase("{{Disambig}}\n* [[Pin[...]")){
 					return null;
 				} else{
 					return lyric;
