@@ -50,9 +50,8 @@
 		</p:dataTable>
 		<!-- Formulario Lyric  -->
 		<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
-			resizable="false" maximizable="true" showEffect="explode"
+			resizable="false" showEffect="explode"
 			hideEffect="explode" closeOnEscape="true">
-
 			<h:outputText value="#{lyricsCDIBean.music.titulo}"
 				styleClass="tituloSongLyric" />
 			<br />
@@ -60,7 +59,6 @@
 				style="width:300px; height:300px; white-space: pre-wrap;"
 				autoResize="false" />
 			<br />
-
 			<p:commandButton title="Save lyric" icon="ui-icon-disk"
 				action="#{lyricsCDIBean.editLyric()}"
 				update=":form-todas-musicas:lyricMusic">
@@ -69,8 +67,6 @@
 				actionListener="#{lyricsCDIBean.newSearchOfMusic()}"
 				update=":form-todas-musicas:lyricMusic">
 			</p:commandButton>
-
-
 		</p:dialog>
 		<p:growl id="msgs" life="2000" autoUpdate="true" />
 	</h:form>

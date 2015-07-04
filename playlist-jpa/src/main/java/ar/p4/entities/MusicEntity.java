@@ -15,13 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
-@Table
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"titulo", "artista", "album"}))
 public class MusicEntity implements Serializable {
 
 	private static final long serialVersionUID = 9008393849875735770L;

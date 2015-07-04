@@ -54,7 +54,7 @@
 			</p:dataTable>
 			<!-- Formulario Lyric  -->
 			<p:dialog id="lyric" header="Lyric" widgetVar="dlg2" modal="true"
-				resizable="false" maximizable="true" showEffect="explode"
+				resizable="false"  showEffect="explode"
 				hideEffect="explode" closeOnEscape="true">
 
 				<h:outputText value="#{lyricsCDIBean.music.titulo}"
@@ -73,7 +73,6 @@
 					actionListener="#{lyricsCDIBean.newSearchOfMusic()}"
 					update=":music-form:lyricMusic">
 				</p:commandButton>
-
 
 			</p:dialog>
 			<!-- Formulario remove music  -->
