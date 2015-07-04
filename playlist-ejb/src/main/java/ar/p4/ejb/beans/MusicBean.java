@@ -14,16 +14,25 @@ import ar.p4.entities.UserEntity;
 
 @Stateless
 public class MusicBean implements MusicInterface{
-	
+
 	private static final Logger log = LoggerFactory.getLogger(MusicBean.class);
-	
+
 	@Inject
 	private MusicDao musicDao;
 
 	@Override
-	public void save(MusicEntity musicEntity){
-		musicDao.save(musicEntity);
+	public boolean save(MusicEntity musicEntity){
+		MusicEntity findMusic=musicDao.findMusicByAtributeUnique(musicEntity.getTitulo(), musicEntity.getArtista(), musicEntity.getAlbum());
+		if(findMusic==null ){
+			musicDao.save(musicEntity);
+			return true;
+			
+		} else{
+			return false;
+		}
 	}
+
+
 
 	@Override
 	public void update(MusicEntity musicEntity){
@@ -100,13 +109,13 @@ public class MusicBean implements MusicInterface{
 	}
 
 	//procurar a lista de todos os titulos Por Artista
-		public List<String> findListaTitulosPorArtista(String artistaSeleccionado){
-			log.info("Procura a lista com os nomes de todos os titulos por determinado artista");
-			return musicDao.findListaTitulosArtista(artistaSeleccionado);
+	public List<String> findListaTitulosPorArtista(String artistaSeleccionado){
+		log.info("Procura a lista com os nomes de todos os titulos por determinado artista");
+		return musicDao.findListaTitulosArtista(artistaSeleccionado);
 
-		}
-	
-	
+	}
+
+
 	//procurar todas as musicas por titulo&&artista
 	public MusicEntity findMusicaByTituloArtista(String artista,String titulo){
 		log.info("Procura a musica com o nomes e o titulo introduzido");

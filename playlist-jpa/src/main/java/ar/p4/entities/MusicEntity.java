@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,9 +24,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"titulo", "artista", "album"}))
+@NamedQuery(name = "findMusicByAtributeUnique", query = "SELECT m FROM MusicEntity m WHERE m.titulo like :titulo and m.artista like :artista and m.album like :album ")
 public class MusicEntity implements Serializable {
 
 	private static final long serialVersionUID = 9008393849875735770L;
+	public static final String FIND_MUSIC_BY_ATRIBUTE_UNIQUE = "findMusicByAtributeUnique";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

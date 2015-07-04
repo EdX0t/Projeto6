@@ -11,7 +11,7 @@ import ar.p4.entities.UserEntity;
 @Local
 public interface MusicInterface{
 	
-	public abstract void save(MusicEntity musicEntity);
+	public abstract boolean save(MusicEntity musicEntity);
 	public abstract void update(MusicEntity musicEntity);
 	public abstract void delete(MusicEntity musicEntity);
 	public abstract MusicEntity find(int musicaID);

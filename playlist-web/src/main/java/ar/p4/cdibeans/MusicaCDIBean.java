@@ -69,21 +69,30 @@ public class MusicaCDIBean implements Serializable {
 				String path = "/music/" +user.getCurrent().getId()+"_"+ file.getFileName();
 				this.musicaCriacao.setDono(user.getCurrent());
 				this.musicaCriacao.setFilePath(path);
-				musicaBean.save(this.musicaCriacao);
-				// refresh nos paineis
-				RequestContext.getCurrentInstance().update(
-						Arrays.asList("frm:msgs", "frm:musica-table"));
-				consultar();
-				pesqAux.setMusicaSeleccionada(musicaSeleccionada);
-				pesqAux.refreshLists();
-				musicaSeleccionada = null;
-				// mensagem de sucesso
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Music added successfully",
-						"");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				//adicionar liricas se fizer upload
-				lyricBean.findSave( musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );
+
+				boolean musicFind= false;
+				musicFind=musicaBean.save(this.musicaCriacao);
+				if(musicFind){
+					// refresh nos paineis
+					RequestContext.getCurrentInstance().update(
+							Arrays.asList("frm:msgs", "frm:musica-table"));
+					consultar();
+					pesqAux.setMusicaSeleccionada(musicaSeleccionada);
+					pesqAux.refreshLists();
+					musicaSeleccionada = null;
+					// mensagem de sucesso
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Music added successfully",
+							"");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					//adicionar liricas se fizer upload
+					lyricBean.findSave( musicaCriacao.getId(), musicaCriacao.getTitulo(),musicaCriacao.getArtista() );	
+					return;
+				}
+				FacesMessage msg = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						"Music already exist", null);
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			} catch (Exception e) {
 				FacesMessage msg = new FacesMessage(

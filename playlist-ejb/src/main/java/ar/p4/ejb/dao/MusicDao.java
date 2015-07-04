@@ -5,10 +5,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-
+import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import ar.p4.entities.MusicEntity;
 import ar.p4.entities.UserEntity;
 
@@ -94,6 +93,19 @@ public class MusicDao extends GenericDao<MusicEntity>{
 		q.setParameter("dono",dono);
 		listaMusicas=q.getResultList();
 		return listaMusicas;
+	}
+	
+	public MusicEntity findMusicByAtributeUnique(String tiulo, String artista, String album ){
+		TypedQuery <MusicEntity> q = em.createNamedQuery(MusicEntity.FIND_MUSIC_BY_ATRIBUTE_UNIQUE, MusicEntity.class);
+		q.setParameter("titulo",tiulo);
+		q.setParameter("artista",artista);
+		q.setParameter("album",album);
+		
+		List<MusicEntity> l=q.getResultList();
+		
+		if(l.isEmpty()){
+			return null;
+		}else return l.get(0);
 	}
 
 }
